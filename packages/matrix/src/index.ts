@@ -19,12 +19,13 @@ const getRealMatrix = async () => {
 		chainLength: 2,
 		hardwareMapping: GpioMapping.AdafruitHat,
 		pixelMapperConfig: LedMatrixUtils.encodeMappers({
-			type: PixelMapperType.VZ,
+			type: PixelMapperType.U,
 		})
 
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
-		gpioSlowdown: 1
+		gpioSlowdown: 4,
+		dropPrivileges: 0,
 	});
 
 
