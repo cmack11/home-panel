@@ -1,0 +1,17 @@
+{
+  "name": "home-panel",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:playground": "pnpm --filter @apps/playground start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.30.3",
+  "devDependencies": {
+    "@types/node": "^25.3.5"
+  }
+}
