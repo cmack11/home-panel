@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "sudo ts-node src/index.ts"
+    "start": "sudo -E ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
