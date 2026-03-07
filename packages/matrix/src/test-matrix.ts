@@ -1,6 +1,6 @@
 import type { LedMatrixInstance, Color } from 'rpi-led-matrix';
 
-
+// @ts-expect-error - mocking
 export class TestMatrix implements LedMatrixInstance {
     brightness(): number;
     brightness(brightness: number): this;
