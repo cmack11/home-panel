@@ -1,5 +1,6 @@
 import type { LedMatrixInstance } from 'rpi-led-matrix';
 import { TestMatrix } from './test-matrix';
+import { getRealMatrix } from './matrix';
 
 export const getMatrix = (): Promise<LedMatrixInstance> => {
 	if (process.platform === 'linux') {
@@ -9,28 +10,7 @@ export const getMatrix = (): Promise<LedMatrixInstance> => {
 	}
 }
 
-const getRealMatrix = async () => {
-	const { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType } = require('rpi-led-matrix');
 
-	const matrix = new LedMatrix({
-		...LedMatrix.defaultMatrixOptions(),
-		rows: 32,
-		cols: 64,
-		chainLength: 2,
-		hardwareMapping: GpioMapping.AdafruitHat,
-		pixelMapperConfig: LedMatrixUtils.encodeMappers({
-			type: PixelMapperType.U,
-		})
-
-	}, {
-		...LedMatrix.defaultRuntimeOptions(),
-		gpioSlowdown: 4,
-		dropPrivileges: 0,
-	});
-
-
-	return matrix;
-};
 
 const getTestMatrix = (): Promise<LedMatrixInstance> => {
 	const matrix = new TestMatrix() as LedMatrixInstance;
