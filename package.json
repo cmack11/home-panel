@@ -12,9 +12,6 @@
   "license": "ISC",
   "packageManager": "pnpm@10.30.3",
   "pnpm": {
-    "ignoredBuiltDependencies": [
-      "rpi-led-matrix"
-    ],
     "onlyBuiltDependencies": [
       "rpi-led-matrix"
     ]
