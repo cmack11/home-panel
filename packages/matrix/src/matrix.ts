@@ -1,5 +1,5 @@
 export const getRealMatrix = async () => {
-	const { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType } = require('rpi-led-matrix-painter');
+	const { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType } = require('rpi-led-matrix');
 
 	const matrix = new LedMatrix({
 		...LedMatrix.defaultMatrixOptions(),
