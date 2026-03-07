@@ -1,8 +1,5 @@
 import type { LedMatrixInstance } from 'rpi-led-matrix';
-import { TestMatrix } from './test-matrix.ts';
-import { createRequire } from 'node:module';
-
-const require = createRequire(import.meta.url);
+import { TestMatrix } from './test-matrix';
 
 export const getMatrix = (): Promise<LedMatrixInstance> => {
 	if (process.platform === 'linux') {

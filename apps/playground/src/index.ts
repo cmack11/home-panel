@@ -1,9 +1,10 @@
 import { getMatrix } from "@packages/matrix";
 
-const matrix = await getMatrix();
+(async () => {
+  const matrix = await getMatrix();
 
-matrix
-  .clear() // clear the display
+  matrix
+    .clear() // clear the display
   .brightness(100) // set the panel brightness to 100%
   .fgColor(0x0000ff) // set the active color to blue
   .fill() // color the entire diplay blue
@@ -27,3 +28,4 @@ matrix
   await new Promise((resolve) => setTimeout(resolve, 5000));
 
   matrix.clear().sync();
+})();
