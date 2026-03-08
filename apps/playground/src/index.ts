@@ -10,16 +10,14 @@ if (process.argv.includes('--painter')) {
         console.log("Path to font:", pathToFont);
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             {
-                id: "helloworld",
-                drawMode: DrawMode.TEXT,
-                color: 0x800000,
-                drawModeOptions: { font: "5x7", fontPath: pathToFont },
-                points: { x: 0, y: 10, z: 0 },
-                text: "Hello, world!",
+                id: "pixel",
+                drawMode: DrawMode.PIXEL,
+                color: 0xff0000,
+                points: [{ x: 10, y: 10, z: 0 }],
                 layer: 1
             }
         ]);
-        const interval = setInterval(() => matrix.paint(), 16);
+        const interval = setInterval(() => matrix.paint(), 5);
 
         await new Promise((resolve) => setTimeout(resolve, 5000));
 
