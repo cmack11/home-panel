@@ -4,23 +4,26 @@ import path from 'node:path';
 if (process.argv.includes('--painter')) {
 
     (async () => {
-        const {matrix, DrawMode, CanvasSection} = await getPainterMatrix();
+        const { matrix, DrawMode, CanvasSection } = await getPainterMatrix();
         matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
+        const pathToFont = path.resolve("fonts/5x7.bdf");
+        console.log("Path to font:", pathToFont);
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             {
                 id: "helloworld",
                 drawMode: DrawMode.TEXT,
                 color: 0x800000,
-                drawModeOptions: { font: "5x7", fontPath: path.resolve("fonts/5x7.bdf") },
+                drawModeOptions: { font: "5x7", fontPath: pathToFont },
                 points: { x: 0, y: 10, z: 0 },
                 text: "Hello, world!",
                 layer: 1
             }
         ]);
-        matrix.paint();
+        const interval = setInterval(() => matrix.paint(), 16);
 
         await new Promise((resolve) => setTimeout(resolve, 5000));
 
+        clearInterval(interval);
         matrix.clear();
     })();
 
