@@ -8,18 +8,32 @@ if (process.argv.includes('--painter')) {
         const pathToFont = path.join(__dirname, "fonts", "5x7.bdf");
         console.log("Path to font:", pathToFont);
         matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
+        const interval = setInterval(() => matrix.paint(), 5);
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             {
-                id: "helloworld", 
+                id: "hi", 
                 drawMode: DrawMode.TEXT, 
                 color: 0x800000, 
                 drawModeOptions: { font: "5x7", fontPath: pathToFont }, 
                 points: { x: 0, y: 10, z: 0 }, 
-                text: "Hello, world!", 
+                text: "Hi Smoobie!", 
                 layer: 1
             }
         ]);
-        const interval = setInterval(() => matrix.paint(), 5);
+
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
+            ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
+            {
+                id: "ily", 
+                drawMode: DrawMode.TEXT, 
+                color: 0x800000, 
+                drawModeOptions: { font: "5x7", fontPath: pathToFont }, 
+                points: { x: 0, y: 25, z: 0 }, 
+                text: "I <3 you!", 
+                layer: 1
+            }
+        ]);
 
         await new Promise((resolve) => setTimeout(resolve, 5000));
 
