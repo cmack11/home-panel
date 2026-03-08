@@ -10,7 +10,7 @@ if (process.argv.includes('--painter')) {
                 id: "helloworld",
                 drawMode: DrawMode.TEXT,
                 color: 0x800000,
-                drawModeOptions: { font: "5x7"},
+                drawModeOptions: { font: "5x7", fontPath: "./fonts/5x7.bdf" },
                 points: { x: 0, y: 0, z: 1 },
                 text: "Hello, world!",
                 layer: 1
