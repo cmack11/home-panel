@@ -22,7 +22,7 @@ if (process.argv.includes('--painter')) {
             }
         ]);
 
-        await new Promise((resolve) => setTimeout(resolve, 5000));
+        await new Promise((resolve) => setTimeout(resolve, 1000 * 1));
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
             {
@@ -36,7 +36,7 @@ if (process.argv.includes('--painter')) {
             }
         ]);
 
-        await new Promise((resolve) => setTimeout(resolve, 1000 * 15));
+        await new Promise((resolve) => setTimeout(resolve, 1000 * 1));
 
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             {
@@ -48,7 +48,7 @@ if (process.argv.includes('--painter')) {
                 points: { x: 0, y: 0, z: 0 }, 
                 width: 32,
                 height: 32, 
-                layer: 1
+                layer: 7
             }
         ]);
 
