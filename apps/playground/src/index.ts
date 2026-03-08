@@ -4,7 +4,8 @@ import path from 'node:path';
 if (process.argv.includes('--painter')) {
 
     (async () => {
-        const { matrix, DrawMode, CanvasSection } = await getPainterMatrix();
+        const { matrix, controls } = await getPainterMatrix();
+        const { DrawMode, CanvasSection, EffectType } = controls;
         const pathToFont = path.join(__dirname, "fonts", "5x7.bdf");
         console.log("Path to font:", pathToFont);
         matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
@@ -28,7 +29,7 @@ if (process.argv.includes('--painter')) {
                 id: "ily", 
                 drawMode: DrawMode.TEXT, 
                 color: 0x800000, 
-                drawModeOptions: { font: "5x7", fontPath: pathToFont }, 
+                drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{effectType: EffectType.BLINK, effectOptions: {rate: 500}}] }, 
                 points: { x: 0, y: 25, z: 0 }, 
                 text: "I <3 you!", 
                 layer: 1

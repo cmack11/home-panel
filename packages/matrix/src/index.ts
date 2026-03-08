@@ -3,6 +3,7 @@ import type { Painter } from 'rpi-led-matrix-painter';
 import { TestMatrix } from './test-matrix';
 import { getRealMatrix } from './matrix';
 import { getPainterMatrix as getPainterMatrixInternal } from './painter-matrix';
+import { get } from 'node:http';
 
 export const getBasicMatrix = (): Promise<LedMatrixInstance> => {
 	if (process.platform === 'linux') {
@@ -12,12 +13,12 @@ export const getBasicMatrix = (): Promise<LedMatrixInstance> => {
 	}
 }
 
-export const getPainterMatrix = async (): Promise<{ matrix: Painter, DrawMode: any, CanvasSection: any }> => {
+export const getPainterMatrix = async (): Promise<ReturnType<typeof getPainterMatrixInternal>> => {
 	if (process.platform === 'linux') {
 		return getPainterMatrixInternal();
 	} else {
 		const matrix = await getTestMatrix();
-		return { matrix, DrawMode: {}, CanvasSection: {} };
+		return { matrix, controls: {} };
 	}
 }
 

@@ -1,6 +1,7 @@
 export const getPainterMatrix = async () => {
-	const { RpiLedMatrix, Painter, DrawMode, CanvasSection } = require('rpi-led-matrix-painter');
+	const { RpiLedMatrix, ...rest } = require('rpi-led-matrix-painter');
     const { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType } = RpiLedMatrix;
+    const { Painter } = rest;
 
 	const matrix = new Painter({
 		...LedMatrix.defaultMatrixOptions(),
@@ -19,5 +20,5 @@ export const getPainterMatrix = async () => {
 	});
 
 
-	return {matrix, DrawMode, CanvasSection};
+	return {matrix, controls: rest};
 };
