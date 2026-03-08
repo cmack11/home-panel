@@ -1,4 +1,5 @@
 import { getBasicMatrix, getPainterMatrix } from "@packages/matrix";
+import path from 'node:path';
 
 if (process.argv.includes('--painter')) {
 
@@ -10,7 +11,7 @@ if (process.argv.includes('--painter')) {
                 id: "helloworld",
                 drawMode: DrawMode.TEXT,
                 color: 0x800000,
-                drawModeOptions: { font: "5x7", fontPath: "./fonts/5x7.bdf" },
+                drawModeOptions: { font: "5x7", fontPath: path.resolve("fonts/5x7.bdf") },
                 points: { x: 0, y: 10, z: 0 },
                 text: "Hello, world!",
                 layer: 1
