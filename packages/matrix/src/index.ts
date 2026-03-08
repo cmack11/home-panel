@@ -17,7 +17,7 @@ export const getPainterMatrix = async (): Promise<{ matrix: Painter, DrawMode: a
 		return getPainterMatrixInternal();
 	} else {
 		const matrix = await getTestMatrix();
-		return { matrix, DrawMode: {} };
+		return { matrix, DrawMode: {}, Board: {} };
 	}
 }
 
