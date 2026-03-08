@@ -38,6 +38,22 @@ if (process.argv.includes('--painter')) {
 
         await new Promise((resolve) => setTimeout(resolve, 1000 * 15));
 
+        matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
+            {
+                id: "sabrina", 
+                drawMode: DrawMode.IMAGE, 
+                color: 0x000000, 
+                drawModeOptions: { fill: false },
+                imagePath: path.join(__dirname, "images", "sabrina.png"), 
+                points: { x: 0, y: 0, z: 0 }, 
+                width: 64,
+                height: 64, 
+                layer: 1
+            }
+        ]);
+
+        await new Promise((resolve) => setTimeout(resolve, 1000 * 15));
+
         clearInterval(interval);
         matrix.clear();
     })();
