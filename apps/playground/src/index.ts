@@ -4,6 +4,7 @@ import path from 'node:path';
 if (process.argv.includes('--painter')) {
 
     (async () => {
+    const messageEffect = async () => {
         const { matrix, controls } = await getPainterMatrix();
         const { DrawMode, CanvasSection, EffectType } = controls;
         const pathToFont = path.join(__dirname, "fonts", "5x7.bdf");
@@ -40,7 +41,11 @@ if (process.argv.includes('--painter')) {
 
         clearInterval(interval);
         matrix.clear();
-    })();
+    };
+    const intervalId = setInterval(messageEffect, 15000);
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 60));
+    clearInterval(intervalId);
+})();
 
 } else {
 
