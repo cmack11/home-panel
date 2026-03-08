@@ -12,12 +12,12 @@ export const getBasicMatrix = (): Promise<LedMatrixInstance> => {
 	}
 }
 
-export const getPainterMatrix = async (): Promise<{ matrix: Painter, DrawMode: any }> => {
+export const getPainterMatrix = async (): Promise<{ matrix: Painter, DrawMode: any, CanvasSection: any }> => {
 	if (process.platform === 'linux') {
 		return getPainterMatrixInternal();
 	} else {
 		const matrix = await getTestMatrix();
-		return { matrix, DrawMode: {}, Board: {} };
+		return { matrix, DrawMode: {}, CanvasSection: {} };
 	}
 }
 

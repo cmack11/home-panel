@@ -3,8 +3,8 @@ import { getBasicMatrix, getPainterMatrix } from "@packages/matrix";
 if (process.argv.includes('--painter')) {
 
     (async () => {
-        const {matrix, DrawMode, Board} = await getPainterMatrix();
-        matrix.getCanvas().addCanvasSection(new Board.CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
+        const {matrix, DrawMode, CanvasSection} = await getPainterMatrix();
+        matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             {
                 id: "helloworld",
