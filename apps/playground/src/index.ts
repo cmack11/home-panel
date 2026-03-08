@@ -43,7 +43,7 @@ if (process.argv.includes('--painter')) {
                 id: "sabrina", 
                 drawMode: DrawMode.IMAGE, 
                 color: 0x000000, 
-                drawModeOptions: { fill: false },
+                drawModeOptions: { fill: true },
                 imagePath: path.join(__dirname, "images", "sabrina.png"), 
                 points: { x: 0, y: 0, z: 0 }, 
                 width: 32,
