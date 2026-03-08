@@ -5,15 +5,17 @@ if (process.argv.includes('--painter')) {
 
     (async () => {
         const { matrix, DrawMode, CanvasSection } = await getPainterMatrix();
-        matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
-        const pathToFont = path.resolve("fonts/5x7.bdf");
+        const pathToFont = path.join(__dirname, "fonts", "5x7.bdf");
         console.log("Path to font:", pathToFont);
+        matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             {
-                id: "pixel",
-                drawMode: DrawMode.PIXEL,
-                color: 0xff0000,
-                points: [{ x: 10, y: 10, z: 0 }],
+                id: "helloworld", 
+                drawMode: DrawMode.TEXT, 
+                color: 0x800000, 
+                drawModeOptions: { font: "5x7", fontPath: pathToFont }, 
+                points: { x: 0, y: 10, z: 0 }, 
+                text: "Hello, world!", 
                 layer: 1
             }
         ]);
