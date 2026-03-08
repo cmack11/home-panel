@@ -46,8 +46,8 @@ if (process.argv.includes('--painter')) {
                 drawModeOptions: { fill: false },
                 imagePath: path.join(__dirname, "images", "sabrina.png"), 
                 points: { x: 0, y: 0, z: 0 }, 
-                width: 64,
-                height: 64, 
+                width: 32,
+                height: 32, 
                 layer: 1
             }
         ]);
