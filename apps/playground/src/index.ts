@@ -9,12 +9,17 @@ if (process.argv.includes('--painter')) {
                 id: "helloworld",
                 drawMode: DrawMode.TEXT,
                 color: 0x800000,
-                drawModeOptions: { font: "5x7", fontPath: "/home/pi/code/rpi-led-matrix-painter-test/fonts/5x7.bdf" },
+                drawModeOptions: { font: "5x7"},
                 points: { x: 0, y: 0, z: 1 },
                 text: "Hello, world!",
                 layer: 1
             }
         ]);
+        matrix.paint();
+
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+
+        matrix.clear();
     })();
 
 } else {
