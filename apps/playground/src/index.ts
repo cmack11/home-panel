@@ -26,7 +26,9 @@ import path from 'node:path';
         }
     ]);
 
+    console.log("Waiting 3 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 3));
+
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
         ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
         {
@@ -40,6 +42,7 @@ import path from 'node:path';
         }
     ]);
 
+    console.log("Waiting 5 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
 
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
@@ -55,6 +58,7 @@ import path from 'node:path';
         }
     ]);
 
+    console.log("Waiting 5 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
 
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
@@ -70,6 +74,7 @@ import path from 'node:path';
         }
     ]);
 
+    console.log("Waiting 5 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
 
     clearInterval(interval);
