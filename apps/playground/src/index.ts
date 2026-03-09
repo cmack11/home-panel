@@ -39,7 +39,7 @@ import path from 'node:path';
     ]);
 
     console.log("Waiting 5 seconds");
-    await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
 
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
         {
@@ -68,7 +68,7 @@ import path from 'node:path';
                 color: 0xD3F527,
                 height: 1,
                 width: 1,
-                drawModeOptions: { effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 1000 } }] },
+                drawModeOptions: { effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: Math.random() * 1000 + 100 } }] },
                 points: [{ x, y, z: 0 }],
                 layer: 1
             }
