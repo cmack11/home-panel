@@ -8,6 +8,7 @@ import path from 'node:path';
     const pathToFont = path.join(__dirname, "fonts", "5x7.bdf");
     console.log("Path to font:", pathToFont);
     const response = await fetch("https://tenor.com/vW5Sam3G2kp.gif");
+    console.log("Fetched image, status:", response.status);
     const arrayBuffer = await response.arrayBuffer();
     // Convert ArrayBuffer to Node.js Buffer
     const buffer = Buffer.from(arrayBuffer);
