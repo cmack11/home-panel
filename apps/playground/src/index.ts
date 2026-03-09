@@ -60,13 +60,15 @@ import path from 'node:path';
         const num = Math.random() * 64*64
         const x = num % 64;
         const y = Math.floor(num / 64);
-
+        console.log(`Adding point at (${x}, ${y})`);
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
             {
                 id: `point-${i}`,
                 drawMode: DrawMode.PIXEL,
                 color: 0xD3F527,
+                height: 1,
+                width: 1,
                 points: { x, y, z: 0 },
                 layer: 1
             }
