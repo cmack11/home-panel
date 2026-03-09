@@ -1,38 +1,22 @@
 import type { LedMatrixInstance } from 'rpi-led-matrix';
-import { TestMatrix } from './test-matrix.ts';
+import type { Painter } from 'rpi-led-matrix-painter';
+import { TestMatrix } from './test-matrix';
+import { getPainterMatrix as getPainterMatrixInternal } from './painter-matrix';
 
-export const getMatrix = (): Promise<LedMatrixInstance> => {
+
+
+export const getPainterMatrix = async (): Promise<ReturnType<typeof getPainterMatrixInternal>> => {
 	if (process.platform === 'linux') {
-		return getRealMatrix();
+		return getPainterMatrixInternal();
 	} else {
-		return getTestMatrix();
+		return await getTestMatrix();
 	}
 }
 
-const getRealMatrix = async () => {
-	const { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType } = await import('rpi-led-matrix');
-
-	const matrix = new LedMatrix({
-		...LedMatrix.defaultMatrixOptions(),
-		rows: 32,
-		cols: 64,
-		chainLength: 2,
-		hardwareMapping: GpioMapping.AdafruitHat,
-		pixelMapperConfig: LedMatrixUtils.encodeMappers({
-			type: PixelMapperType.VZ,
-		})
-
-	}, {
-		...LedMatrix.defaultRuntimeOptions(),
-		gpioSlowdown: 1
-	});
 
 
-	return matrix;
-};
-
-const getTestMatrix = (): Promise<LedMatrixInstance> => {
-	const matrix = new TestMatrix() as LedMatrixInstance;
+const getTestMatrix = (): Promise<ReturnType<typeof getPainterMatrixInternal>>  => {
+	const matrix = new TestMatrix(); //as ReturnType<typeof getPainterMatrixInternal>;
 
 	return Promise.resolve(matrix);
 }

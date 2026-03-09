@@ -1,29 +1,84 @@
-import { getMatrix } from "@packages/matrix";
+import { getPainterMatrix } from "@packages/matrix";
+import path from 'node:path';
 
-const matrix = await getMatrix();
 
-matrix
-  .clear() // clear the display
-  .brightness(100) // set the panel brightness to 100%
-  .fgColor(0x0000ff) // set the active color to blue
-  .fill() // color the entire diplay blue
-  .fgColor(0xffff00) // set the active color to yellow
-  // draw a yellow circle around the display
-  .drawCircle(matrix.width() / 2, matrix.height() / 2, matrix.width() / 2 - 1)
-  // draw a yellow rectangle
-  .drawRect(
-    matrix.width() / 4,
-    matrix.height() / 4,
-    matrix.width() / 2,
-    matrix.height() / 2
-  )
-  // sets the active color to red
-  .fgColor({ r: 255, g: 0, b: 0 })
-  // draw two diagonal red lines connecting the corners
-  .drawLine(0, 0, matrix.width(), matrix.height())
-  .drawLine(matrix.width() - 1, 0, 0, matrix.height() - 1)
-  .sync();
+(async () => {
+    const { matrix, controls } = await getPainterMatrix();
+    const { DrawMode, CanvasSection, EffectType } = controls;
+    const pathToFont = path.join(__dirname, "fonts", "5x7.bdf");
+    console.log("Path to font:", pathToFont);
 
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+    matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
+    const interval = setInterval(() => matrix.paint(), 5);
+    matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
+        {
+            id: "hi",
+            drawMode: DrawMode.TEXT,
+            color: 0x800000,
+            drawModeOptions: { font: "5x7", fontPath: pathToFont },
+            points: { x: 0, y: 10, z: 0 },
+            text: "Hi!",
+            layer: 1
+        }
+    ]);
 
-  matrix.clear().sync();
+    console.log("Waiting 3 seconds");
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 3));
+
+    matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
+        ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
+        {
+            id: "demo",
+            drawMode: DrawMode.TEXT,
+            color: 0x27D3F5,
+            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 500 } }, { effectType: EffectType.SCROLLLEFT, effectOptions: { rate: 50 } }] },
+            points: { x: 0, y: 25, z: 0 },
+            text: "Welcome to my demo!",
+            layer: 1
+        }
+    ]);
+
+    console.log("Waiting 5 seconds");
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
+
+    matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
+        {
+            id: "sabrina",
+            drawMode: DrawMode.IMAGE,
+            color: 0x000000,
+            imagePath: path.join(__dirname, "images", "sabrina-64.png"),
+            points: { x: 0, y: 0, z: 0 },
+            layer: 7
+        }
+    ]);
+
+    console.log("Waiting 5 seconds");
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
+    matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([])
+    for (let i = 0; i < 100; i++) {
+        const num = Math.random() * 64*64
+        const x = Math.floor(num % 64);
+        const y = Math.floor(num / 64);
+
+        matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
+            ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
+            {
+                id: `point-${i}`,
+                drawMode: DrawMode.PIXEL,
+                color: 0xD3F527,
+                height: 1,
+                width: 1,
+                drawModeOptions: { effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: Math.random() * 1000 + 100 } }] },
+                points: [{ x, y, z: 0 }],
+                layer: 1
+            }
+        ]);
+        await new Promise((resolve) => setTimeout(resolve, Math.random() * 100));
+    }
+
+    console.log("Waiting 1 seconds");
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 1));
+
+    clearInterval(interval);
+    matrix.clear();
+})();
