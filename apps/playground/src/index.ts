@@ -75,8 +75,8 @@ import path from 'node:path';
         await new Promise((resolve) => setTimeout(resolve, Math.random() * 100));
     }
 
-    console.log("Waiting 5 seconds");
-    await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
+    console.log("Waiting 1 seconds");
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 1));
 
     clearInterval(interval);
     matrix.clear();
