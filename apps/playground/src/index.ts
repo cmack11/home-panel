@@ -7,11 +7,7 @@ import path from 'node:path';
     const { DrawMode, CanvasSection, EffectType } = controls;
     const pathToFont = path.join(__dirname, "fonts", "5x7.bdf");
     console.log("Path to font:", pathToFont);
-    const response = await fetch("https://tenor.com/vW5Sam3G2kp.gif");
-    console.log("Fetched image, status:", response.status);
-    const arrayBuffer = await response.arrayBuffer();
-    // Convert ArrayBuffer to Node.js Buffer
-    const buffer = Buffer.from(arrayBuffer);
+
     matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
     const interval = setInterval(() => matrix.paint(), 5);
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
@@ -52,27 +48,28 @@ import path from 'node:path';
             color: 0x000000,
             imagePath: path.join(__dirname, "images", "sabrina-64.png"),
             points: { x: 0, y: 0, z: 0 },
-            width: 32,
-            height: 32,
             layer: 7
         }
     ]);
 
     console.log("Waiting 5 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
+    for (let i = 0; i < 64 * 64; i++) {
+        const x = i % 64;
+        const y = Math.floor(i / 64);
 
-    matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
-        {
-            id: "buffer",
-            drawMode: DrawMode.BUFFER,
-            color: 0x000000,
-            buffer: buffer,
-            points: { x: 0, y: 0, z: 0 },
-            width: 32,
-            height: 32,
-            layer: 8
-        }
-    ]);
+        matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
+            ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
+            {
+                id: `point-${i}`,
+                drawMode: DrawMode.PIXEL,
+                color: 0xD3F527,
+                points: { x, y, z: 0 },
+                layer: 1
+            }
+        ]);
+        await new Promise((resolve) => setTimeout(resolve, 10));
+    }
 
     console.log("Waiting 5 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
