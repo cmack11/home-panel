@@ -41,16 +41,16 @@ import path from 'node:path';
     console.log("Waiting 5 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
 
-    matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
-        {
-            id: "sabrina",
-            drawMode: DrawMode.IMAGE,
-            color: 0x000000,
-            imagePath: path.join(__dirname, "images", "sabrina-64.png"),
-            points: { x: 0, y: 0, z: 0 },
-            layer: 7
-        }
-    ]);
+    // matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
+    //     {
+    //         id: "sabrina",
+    //         drawMode: DrawMode.IMAGE,
+    //         color: 0x000000,
+    //         imagePath: path.join(__dirname, "images", "sabrina-64.png"),
+    //         points: { x: 0, y: 0, z: 0 },
+    //         layer: 7
+    //     }
+    // ]);
 
     console.log("Waiting 5 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
