@@ -69,6 +69,8 @@ import path from 'node:path';
         }
     ]);
 
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
+
     clearInterval(interval);
     matrix.clear();
 })();
