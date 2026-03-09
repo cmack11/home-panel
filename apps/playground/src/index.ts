@@ -70,7 +70,7 @@ import path from 'node:path';
             points: { x: 0, y: 0, z: 0 },
             width: 32,
             height: 32,
-            layer: 7
+            layer: 8
         }
     ]);
 
