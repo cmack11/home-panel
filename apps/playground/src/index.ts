@@ -68,6 +68,7 @@ import path from 'node:path';
                 color: 0xD3F527,
                 height: 1,
                 width: 1,
+                drawModeOptions: { effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 1000 } }] },
                 points: [{ x, y, z: 0 }],
                 layer: 1
             }
