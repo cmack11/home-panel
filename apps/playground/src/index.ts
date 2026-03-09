@@ -54,9 +54,11 @@ import path from 'node:path';
 
     console.log("Waiting 5 seconds");
     await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
-    for (let i = 0; i < 64 * 64; i++) {
-        const x = i % 64;
-        const y = Math.floor(i / 64);
+    matrix.clear();
+    for (let i = 0; i < 50; i++) {
+        const num = Math.random() * 64*64
+        const x = num % 64;
+        const y = Math.floor(num / 64);
 
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
