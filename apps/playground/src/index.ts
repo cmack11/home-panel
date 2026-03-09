@@ -28,7 +28,7 @@ import path from 'node:path';
             id: "demo",
             drawMode: DrawMode.TEXT,
             color: 0x27D3F5,
-            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{ effectType: EffectType.BLINK, effectOptions: { rate: 500 } }] },
+            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{ effectType: EffectType.BLINK, effectOptions: { rate: 500 } }, { effectType: EffectType.SCROLLLEFT, effectOptions: { rate: 10 }}] },
             points: { x: 0, y: 25, z: 0 },
             text: "Welcome to my demo!",
             layer: 1
