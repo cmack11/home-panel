@@ -68,7 +68,7 @@ import path from 'node:path';
                 color: 0xD3F527,
                 height: 1,
                 width: 1,
-                points: { x, y, z: 0 },
+                points: [{ x, y, z: 0 }],
                 layer: 1
             }
         ]);
