@@ -58,7 +58,7 @@ import path from 'node:path';
     matrix.paint();
     for (let i = 0; i < 50; i++) {
         const num = Math.random() * 64*64
-        const x = num % 64;
+        const x = Math.floor(num % 64);
         const y = Math.floor(num / 64);
         console.log(`Adding point at (${x}, ${y})`);
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
