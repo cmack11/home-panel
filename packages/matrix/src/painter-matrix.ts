@@ -1,7 +1,7 @@
-import type * as Board from 'rpi-led-matrix-painter';
+import type * as Board from '@packages/painter';
 
 export const getPainterMatrix = async (): Promise<{ matrix: Board.Painter, controls: Omit<typeof Board, 'Painter'>}> => {
-	const { RpiLedMatrix, ...rest } = require('rpi-led-matrix-painter');
+	const { RpiLedMatrix, ...rest } = require('@packages/painter');
     const { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType } = RpiLedMatrix;
     const { Painter } = rest;
 

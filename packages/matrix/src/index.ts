@@ -1,5 +1,5 @@
 import type { LedMatrixInstance } from 'rpi-led-matrix';
-import type { Painter } from 'rpi-led-matrix-painter';
+import type { Painter } from '@packages/painter';
 import { TestMatrix } from './test-matrix';
 import { getPainterMatrix as getPainterMatrixInternal } from './painter-matrix';
 
