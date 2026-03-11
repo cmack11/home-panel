@@ -33,7 +33,7 @@ const getGreetingInstructions = (addEffects: boolean = false): PaintingInstructi
             id: "hi",
             drawMode: DrawMode.TEXT,
             color: 0x800000,
-            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: addEffects ? [{ effectType: EffectType.SCROLLDOWN, effectOptions: { rate: 10 } }] : [] },
+            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: addEffects ? [{ effectType: EffectType.SCROLLDOWN, effectOptions: { rate: 100 } }] : [] },
             points: { x: WIDTH / 2 - greeting.length*5 / 2, y: 1, z: 0 },
             text: greeting,
             layer: 1
@@ -45,7 +45,7 @@ const getWelcomeMessageInstructions = (): PaintingInstruction[] => {
             id: "demo",
             drawMode: DrawMode.TEXT,
             color: 0x27D3F5,
-            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 500 } }, { effectType: EffectType.SCROLLLEFT, effectOptions: { rate: 50 } }] },
+            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 0 } }, { effectType: EffectType.SCROLLLEFT, effectOptions: { rate: 50 } }] },
             points: { x: 0, y: 25, z: 0 },
             text: "Welcome to my demo!",
             layer: 2
