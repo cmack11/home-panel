@@ -77,7 +77,7 @@ const getBufferInstructions = async (): Promise<PaintingInstruction[]> => {
         color: 0x000000,
         height: HEIGHT/2,
         width: WIDTH/2,
-        points: { x: 0, y: 0, z: 0 },
+        points: { x: 10, y: 10, z: 0 },
         layer: 1
     }]
 }
