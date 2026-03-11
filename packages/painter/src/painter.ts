@@ -424,7 +424,15 @@ export class Painter {
                         }
 
                         case DrawMode.BUFFER: {
-                             this.matrix.drawBuffer(paintingInstruction.buffer!, paintingInstruction.width!, paintingInstruction.height!); // TODO better definition.
+                            // drawBuffer returns void, make sure the promise resolves so the frame
+                            // can complete and matrix.sync() will be called.
+                            this.matrix.drawBuffer(
+                                paintingInstruction.buffer!,
+                                paintingInstruction.width!,
+                                paintingInstruction.height!
+                            ); // TODO better definition: confirm buffer layout/stride
+                            resolve(dereferencedPaintingInstruction);
+                            break;
                         }
                     }
                 }));
