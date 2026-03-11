@@ -21,7 +21,7 @@ export class Painter {
     private currentTime: Date;
     private duration: number; // milliseconds
 
-    constructor(matrixOptions: matrix.MatrixOptions, runtimeOptions: matrix.RuntimeOptions){
+    constructor(matrixOptions: matrix.MatrixOptions, runtimeOptions: matrix.RuntimeOptions) {
         this.canvas = new Canvas(matrixOptions, runtimeOptions); // May come in handy for display size, etc.
         this.matrix = new matrix.LedMatrix(matrixOptions, runtimeOptions);
         this.fontCache = [] as matrix.FontInstance[];
@@ -46,7 +46,7 @@ export class Painter {
         this.tick();
     }
 
-    public getCanvas(): Canvas{
+    public getCanvas(): Canvas {
         return this.canvas;
     };
 
@@ -54,7 +54,7 @@ export class Painter {
         let cachedFont = this.fontCache.find((font: matrix.FontInstance) => {
             return font.name() == name && font.path() == path;
         });
-        if(cachedFont == undefined){
+        if (cachedFont == undefined) {
             // Push font
             cachedFont = new matrix.Font(name, path);
             this.fontCache.push(cachedFont);
@@ -67,19 +67,19 @@ export class Painter {
             let cachedImage = this.imageCache.find((image: Image) => {
                 return image.path == imagePath;
             });
-            if(cachedImage != undefined){
+            if (cachedImage != undefined) {
                 resolve(cachedImage);
             }
-            if(cachedImage == undefined){
+            if (cachedImage == undefined) {
                 let content: number[][];
                 Jimp.read(imagePath)
                     .then((res: Jimp) => {
                         let width = res.getWidth();
                         let height = res.getHeight();
                         content = Array(width);
-                        for(let x = 1; x <= width; x++){
+                        for (let x = 1; x <= width; x++) {
                             content[x - 1] = Array(height);
-                            for(let y = 1; y <= height; y++){
+                            for (let y = 1; y <= height; y++) {
                                 content[x - 1][y - 1] = (res.getPixelColor(x, y) >>> 0); // Convert to unsigned 32-bit int.
                             }
                         }
@@ -89,7 +89,7 @@ export class Painter {
                             height: height,
                             content: content
                         } as Image;
-    
+
                         this.imageCache.push(cachedImage);
                         resolve(cachedImage);
                     }, (rej: any) => {
@@ -99,7 +99,7 @@ export class Painter {
                     });
             }
         });
-        
+
     }
 
     protected fillBlankCanvasSections(): void {
@@ -108,11 +108,11 @@ export class Painter {
         let height = this.matrix.height();
         let map: boolean[][] = [[]];
 
-        for(let y = 0; y < height; y++){
+        for (let y = 0; y < height; y++) {
             map[y] = Array(width);
             map[y].fill(false, 0, width);
         }
-        
+
 
         let sections: CanvasSection[] = this.getCanvas().getCanvasSections();
 
@@ -122,14 +122,14 @@ export class Painter {
         this.matrix.fgColor(0x000000);
 
         sections.forEach(section => {
-            for(let y = section.y; y < section.y + section.height; y++){
+            for (let y = section.y; y < section.y + section.height; y++) {
                 map[y].fill(true, section.x, section.x + section.width);
             }
         });
 
-        for(let y = 0; y < height; y++){
-            for(let x = 0; x < width; x++){
-                if(!map[y][x]){
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                if (!map[y][x]) {
                     this.matrix.setPixel(x, y);
                 }
             }
@@ -137,57 +137,57 @@ export class Painter {
 
     }
 
-    private getPaintingInstructionSize(paintingInstruction: PaintingInstruction): {width: number, height: number} {
-        switch (paintingInstruction.drawMode){
+    private getPaintingInstructionSize(paintingInstruction: PaintingInstruction): { width: number, height: number } {
+        switch (paintingInstruction.drawMode) {
             case DrawMode.POLYGON: {
                 let bounds = (paintingInstruction.points as Point[])
-                    .map((value) => {return {minx: value.x, maxx: value.x, miny: value.y, maxy: value.y};})
+                    .map((value) => { return { minx: value.x, maxx: value.x, miny: value.y, maxy: value.y }; })
                     .reduce((prev, curr) => {
-                        return {minx: Math.min(prev.minx, curr.minx), maxx: Math.max(prev.maxx, curr.maxx), miny: Math.min(prev.miny, curr.miny), maxy: Math.max(prev.maxy, curr.maxy)};
+                        return { minx: Math.min(prev.minx, curr.minx), maxx: Math.max(prev.maxx, curr.maxx), miny: Math.min(prev.miny, curr.miny), maxy: Math.max(prev.maxy, curr.maxy) };
                     });
-                return {width: (bounds.maxx - bounds.minx + 1), height: (bounds.maxy - bounds.miny + 1)};
+                return { width: (bounds.maxx - bounds.minx + 1), height: (bounds.maxy - bounds.miny + 1) };
             }
             case DrawMode.PIXEL: {
                 let bounds = (paintingInstruction.points as Point[])
-                    .map((value) => {return {minx: value.x, maxx: value.x, miny: value.y, maxy: value.y};})
+                    .map((value) => { return { minx: value.x, maxx: value.x, miny: value.y, maxy: value.y }; })
                     .reduce((prev, curr) => {
-                        return {minx: Math.min(prev.minx, curr.minx), maxx: Math.max(prev.maxx, curr.maxx), miny: Math.min(prev.miny, curr.miny), maxy: Math.max(prev.maxy, curr.maxy)};
+                        return { minx: Math.min(prev.minx, curr.minx), maxx: Math.max(prev.maxx, curr.maxx), miny: Math.min(prev.miny, curr.miny), maxy: Math.max(prev.maxy, curr.maxy) };
                     });
-                return {width: (bounds.maxx - bounds.minx + 1), height: (bounds.maxy - bounds.miny + 1)};
+                return { width: (bounds.maxx - bounds.minx + 1), height: (bounds.maxy - bounds.miny + 1) };
             }
             case DrawMode.TEXT: {
                 let text = (paintingInstruction.text as string);
                 let font = this.getFontInstance((((paintingInstruction as PaintingInstruction).drawModeOptions as DrawModeOption).font as string), (((paintingInstruction as PaintingInstruction).drawModeOptions as DrawModeOption).fontPath as string));
                 let textwidth = font.stringWidth(text);
                 let textheight = font.height();
-                return {width: textwidth, height: textheight};
+                return { width: textwidth, height: textheight };
             }
             case DrawMode.IMAGE: {
                 this.getImageInstance(paintingInstruction.imagePath as string)
                     .then((res) => {
-                        return {width: res.width, height: res.height};
+                        return { width: res.width, height: res.height };
                     }, (rej) => {
-                        return {width: 0, height: 0};
+                        return { width: 0, height: 0 };
                     });
             }
             default: {
-                return {width: paintingInstruction?.width as number, height: paintingInstruction?.height as number};
+                return { width: paintingInstruction?.width as number, height: paintingInstruction?.height as number };
             }
         }
     }
 
     private applyEffects(paintingInstruction: PaintingInstruction, canvasSection: CanvasSection): PaintingInstruction | null { // Updates a given PaintingInstruction to transpose over time.
         let newPaintingInstruction = paintingInstruction;
-        let dimensions: {width: number, height: number} = this.getPaintingInstructionSize(newPaintingInstruction);
+        let dimensions: { width: number, height: number } = this.getPaintingInstructionSize(newPaintingInstruction);
         let delta_x: number = 0;
         let delta_y: number = 0;
         let color: number = paintingInstruction.color;
         let draw: boolean = true;
 
         newPaintingInstruction.drawModeOptions?.effects?.forEach((effect) => {
-            switch(effect.effectType){
+            switch (effect.effectType) {
                 case EffectType.SCROLLLEFT: {
-                    if((this.paintingInstructionCache[paintingInstruction.id].points as Point).x + dimensions.width < canvasSection.x){
+                    if ((this.paintingInstructionCache[paintingInstruction.id].points as Point).x + dimensions.width < canvasSection.x) {
                         delta_x = canvasSection.width; // Wrap text to right edge.
                     }
                     else {
@@ -196,7 +196,7 @@ export class Painter {
                     break;
                 }
                 case EffectType.SCROLLRIGHT: {
-                    if((this.paintingInstructionCache[paintingInstruction.id].points as Point).x > (canvasSection.x + canvasSection.width)){
+                    if ((this.paintingInstructionCache[paintingInstruction.id].points as Point).x > (canvasSection.x + canvasSection.width)) {
                         delta_x = (dimensions.width); // Wrap text to left edge.
                     }
                     else {
@@ -204,8 +204,8 @@ export class Painter {
                     }
                     break;
                 }
-                case EffectType.SCROLLUP: { 
-                    if((this.paintingInstructionCache[paintingInstruction.id].points as Point).y < (canvasSection.y - canvasSection.height)){
+                case EffectType.SCROLLUP: {
+                    if ((this.paintingInstructionCache[paintingInstruction.id].points as Point).y < (canvasSection.y - canvasSection.height)) {
                         delta_y = (canvasSection.height); // Wrap text to left edge.
                     }
                     else {
@@ -214,7 +214,7 @@ export class Painter {
                     break;
                 }
                 case EffectType.SCROLLDOWN: {
-                    if((this.paintingInstructionCache[paintingInstruction.id].points as Point).y > (canvasSection.y + canvasSection.height)){
+                    if ((this.paintingInstructionCache[paintingInstruction.id].points as Point).y > (canvasSection.y + canvasSection.height)) {
                         delta_y = 0 - (dimensions.height); // Wrap text to left edge.
                     }
                     else {
@@ -223,7 +223,7 @@ export class Painter {
                     break;
                 }
                 case EffectType.BLINK: {
-                    if(Math.floor(this.duration / effect.effectOptions.rate) % 2 == 1){
+                    if (Math.floor(this.duration / effect.effectOptions.rate) % 2 == 1) {
                         draw = false;
                     }
                     break;
@@ -240,7 +240,7 @@ export class Painter {
         });
 
         // Apply delta to all Points
-        if(paintingInstruction.drawMode == DrawMode.POLYGON || paintingInstruction.drawMode == DrawMode.PIXEL){
+        if (paintingInstruction.drawMode == DrawMode.POLYGON || paintingInstruction.drawMode == DrawMode.PIXEL) {
             (newPaintingInstruction.points as Point[]).forEach((point) => {
                 point.x += delta_x;
                 point.y += delta_y;
@@ -259,18 +259,18 @@ export class Painter {
         // How about before we draw each CanvasSection we do a fill with black on the section?  It would work for the next section being drawn...
         // In other words, if there are empty portions of the canvas, we should fill them in with black as well.  Some clever maths will help.
         this.tick();
-	    this.matrix.clear();
+        this.matrix.clear();
 
         let instructionPromises: Promise<PaintingInstruction | null>[] = [] as Promise<PaintingInstruction | null>[];
 
-        this.getCanvas().getCanvasSections().sort((a, b) => {return a.z - b.z;}).forEach((canvasSection: CanvasSection) => {
+        this.getCanvas().getCanvasSections().sort((a, b) => { return a.z - b.z; }).forEach((canvasSection: CanvasSection) => {
             // Blank out the CanvasSection.
             this.matrix.fgColor(0x000000);
             this.matrix.fill(canvasSection.x, canvasSection.y, canvasSection.x + canvasSection.width - 1, canvasSection.y + canvasSection.height - 1);
             // this.matrix.sync();
 
             // TODO Use promise.all() so we know everything's been drawn to the screen.
-            canvasSection.get().representation.sort((a, b) => {return a.layer - b.layer}).forEach(paintingInstruction => {     
+            canvasSection.get().representation.sort((a, b) => { return a.layer - b.layer }).forEach(paintingInstruction => {
                 // make a lightweight clone of the instruction so that we can mutate
                 // position/color when applying effects without altering the original
                 // object stored on the canvas.  We also need to preserve the Buffer
@@ -291,12 +291,12 @@ export class Painter {
                 } as PaintingInstruction;
 
                 instructionPromises.push(new Promise((resolve, reject) => {
-                    if(this.paintingInstructionCache[dereferencedPaintingInstruction.id] == undefined){
+                    if (this.paintingInstructionCache[dereferencedPaintingInstruction.id] == undefined) {
                         this.paintingInstructionCache[dereferencedPaintingInstruction.id] = dereferencedPaintingInstruction;
-                    } 
+                    }
 
                     // Do stuff here.
-                    switch (dereferencedPaintingInstruction.drawMode){
+                    switch (dereferencedPaintingInstruction.drawMode) {
                         case DrawMode.LINE: {
                             let newPaintingInstruction = this.applyEffects(dereferencedPaintingInstruction, canvasSection);
                             let x0 = (newPaintingInstruction?.points as Point[])[0].x + canvasSection.x;
@@ -310,7 +310,7 @@ export class Painter {
                             resolve(newPaintingInstruction);
                             break;
                         }
-                        case DrawMode.RECTANGLE: { 
+                        case DrawMode.RECTANGLE: {
                             let newPaintingInstruction = this.applyEffects(dereferencedPaintingInstruction, canvasSection);
                             let x = (newPaintingInstruction?.points as Point).x + canvasSection.x;
                             let y = (newPaintingInstruction?.points as Point).y + canvasSection.y;
@@ -319,7 +319,7 @@ export class Painter {
                             let color = newPaintingInstruction?.color;
                             let fill = newPaintingInstruction?.drawModeOptions?.fill || false;
                             this.matrix.fgColor(color!);
-                            if(fill){
+                            if (fill) {
                                 this.matrix.drawFilledRect(x, y, width, height);
                             }
                             else {
@@ -328,15 +328,15 @@ export class Painter {
                             resolve(newPaintingInstruction);
                             break;
                         }
-                        case DrawMode.CIRCLE: { 
+                        case DrawMode.CIRCLE: {
                             let newPaintingInstruction = this.applyEffects(dereferencedPaintingInstruction, canvasSection);
                             let x = (newPaintingInstruction?.points as Point).x + canvasSection.x;
                             let y = (newPaintingInstruction?.points as Point).y + canvasSection.y;
                             let r = (newPaintingInstruction?.width as number) / 2;
                             let color = newPaintingInstruction?.color;
                             let fill = newPaintingInstruction?.drawModeOptions?.fill || false;
-                            this.matrix.fgColor(color!); 
-                            if(fill){
+                            this.matrix.fgColor(color!);
+                            if (fill) {
                                 this.matrix.drawFilledCircle(x, y, r);
                             }
                             else {
@@ -360,7 +360,7 @@ export class Painter {
                                 coordinateArray.push(point.y + canvasSection.y);
                             });
                             this.matrix.fgColor(color!);
-                            if(fill){
+                            if (fill) {
                                 this.matrix.drawFilledPolygon(coordinateArray);
                             }
                             else {
@@ -369,10 +369,10 @@ export class Painter {
                             resolve(newPaintingInstruction);
                             break;
                         }
-                        case DrawMode.PIXEL: { 
+                        case DrawMode.PIXEL: {
                             let newPaintingInstruction: PaintingInstruction = this.applyEffects(dereferencedPaintingInstruction, canvasSection) as PaintingInstruction;
                             this.matrix.fgColor(newPaintingInstruction.color);
-                            if(newPaintingInstruction != null){
+                            if (newPaintingInstruction != null) {
                                 (newPaintingInstruction.points as Point[]).forEach((point: Point) => {
                                     this.matrix.setPixel(point.x + canvasSection.x, point.y + canvasSection.y);
                                 });
@@ -389,11 +389,11 @@ export class Painter {
                             let textwidth = font.stringWidth(text);
                             let textheight = font.height();
                             let draw: boolean = true;
-                           
+
                             let newPaintingInstruction = this.applyEffects(dereferencedPaintingInstruction, canvasSection);
 
 
-                            if(newPaintingInstruction != null){
+                            if (newPaintingInstruction != null) {
                                 color = newPaintingInstruction.color;
                                 x = (newPaintingInstruction?.points as Point).x + canvasSection.x;
                                 y = (newPaintingInstruction?.points as Point).y + canvasSection.y;
@@ -401,12 +401,12 @@ export class Painter {
                             else {
                                 draw = false;
                             }
-                            
-                            if(draw){
+
+                            if (draw) {
                                 this.matrix.font(font);
                                 this.matrix.fgColor(color!);
                                 let running_x = x;
-                                for(let c = 0; c < text.length; c++){
+                                for (let c = 0; c < text.length; c++) {
                                     this.matrix.drawText(text.charAt(c), running_x, y);
                                     running_x += font.stringWidth(text.charAt(c));
                                 }
@@ -414,19 +414,19 @@ export class Painter {
                             resolve(newPaintingInstruction);
                             break;
                         }
-                        case DrawMode.IMAGE: { 
+                        case DrawMode.IMAGE: {
                             // Loop through image points and use SetPixel.
                             let newPaintingInstruction: PaintingInstruction = this.applyEffects(dereferencedPaintingInstruction, canvasSection) as PaintingInstruction;
                             this.getImageInstance(dereferencedPaintingInstruction.imagePath!)
                                 .then((res: Image) => {
-                                    
+
                                     let imageInstance: Image = res;
                                     let x = (newPaintingInstruction.points as Point).x + canvasSection.x;
                                     let y = (newPaintingInstruction.points as Point).y + canvasSection.y;
 
-                                    for(let img_y = 0; img_y < imageInstance.height; img_y++){
-                                        for(let img_x = 0; img_x < imageInstance.width; img_x++){
-                                            if((imageInstance.content[img_x][img_y] & 0x000000FF) != 0){ // Alpha 0 is not drawn.
+                                    for (let img_y = 0; img_y < imageInstance.height; img_y++) {
+                                        for (let img_x = 0; img_x < imageInstance.width; img_x++) {
+                                            if ((imageInstance.content[img_x][img_y] & 0x000000FF) != 0) { // Alpha 0 is not drawn.
                                                 this.matrix.fgColor(imageInstance.content[img_x][img_y] >>> 8);
                                                 this.matrix.setPixel(x + img_x, y + img_y);
                                             }
@@ -436,20 +436,61 @@ export class Painter {
                                 }, (rej) => {
                                     console.log(rej);
                                 });
-                                resolve(newPaintingInstruction);
-                                break;
+                            resolve(newPaintingInstruction);
+                            break;
                         }
 
                         case DrawMode.BUFFER: {
-                            const {buffer, width, height, points} = paintingInstruction
-                            const appliedWidth = points ? (points as Point).x + (width ?? 0) : width;
-                            const appliedHeight = points ? (points as Point).y + (height ?? 0) : height;
-                            this.matrix.drawBuffer(
-                                buffer!,
-                                appliedWidth,
-                                appliedHeight
-                            ); // TODO better definition: confirm buffer layout/stride
-                            resolve(dereferencedPaintingInstruction);
+                            const newPaintingInstruction = this.applyEffects(
+                                dereferencedPaintingInstruction,
+                                canvasSection
+                            ) as PaintingInstruction;
+
+                            if (!newPaintingInstruction) {
+                                resolve(null);
+                                break;
+                            }
+
+                            const buffer = newPaintingInstruction.buffer!;
+                            const width = newPaintingInstruction.width!;
+                            const height = newPaintingInstruction.height!;
+
+                            const point = newPaintingInstruction.points as Point;
+
+                            const offsetX = point.x + canvasSection.x;
+                            const offsetY = point.y + canvasSection.y;
+
+                            const matrixWidth = this.matrix.width();
+                            const matrixHeight = this.matrix.height();
+
+                            const translatedBuffer = Buffer.alloc(matrixWidth * matrixHeight * 3);
+
+                            for (let y = 0; y < height; y++) {
+                                for (let x = 0; x < width; x++) {
+
+                                    const srcIndex = (y * width + x) * 3;
+
+                                    const destX = offsetX + x;
+                                    const destY = offsetY + y;
+
+                                    if (
+                                        destX >= 0 &&
+                                        destX < matrixWidth &&
+                                        destY >= 0 &&
+                                        destY < matrixHeight
+                                    ) {
+                                        const destIndex = (destY * matrixWidth + destX) * 3;
+
+                                        translatedBuffer[destIndex] = buffer[srcIndex];
+                                        translatedBuffer[destIndex + 1] = buffer[srcIndex + 1];
+                                        translatedBuffer[destIndex + 2] = buffer[srcIndex + 2];
+                                    }
+                                }
+                            }
+
+                            this.matrix.drawBuffer(translatedBuffer, matrixWidth, matrixHeight);
+
+                            resolve(newPaintingInstruction);
                             break;
                         }
                     }
@@ -470,7 +511,7 @@ export class Painter {
             }, (rej) => {
                 this.fillBlankCanvasSections();
                 this.matrix.sync();
-	    });
+            });
     }
 
 }
