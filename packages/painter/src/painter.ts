@@ -79,7 +79,7 @@ export class Painter {
                         content = Array(width);
                         for(let x = 1; x <= width; x++){
                             content[x - 1] = Array(height);
-                            for(let y = 1; y <= width; y++){
+                            for(let y = 1; y <= height; y++){
                                 content[x - 1][y - 1] = (res.getPixelColor(x, y) >>> 0); // Convert to unsigned 32-bit int.
                             }
                         }
@@ -441,12 +441,13 @@ export class Painter {
                         }
 
                         case DrawMode.BUFFER: {
-                            // drawBuffer returns void, make sure the promise resolves so the frame
-                            // can complete and matrix.sync() will be called.
+                            const {buffer, width, height, points} = paintingInstruction
+                            const appliedWidth = points ? (points as Point).x + (width ?? 0) : width;
+                            const appliedHeight = points ? (points as Point).y + (height ?? 0) : height;
                             this.matrix.drawBuffer(
-                                paintingInstruction.buffer!,
-                                paintingInstruction.width!,
-                                paintingInstruction.height!
+                                buffer!,
+                                appliedWidth,
+                                appliedHeight
                             ); // TODO better definition: confirm buffer layout/stride
                             resolve(dereferencedPaintingInstruction);
                             break;
