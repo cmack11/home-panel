@@ -28,13 +28,14 @@ const getPathToImage = () => {
 const pathToImage = getPathToImage();
 
 const getGreetingInstructions = () => {
+    const greeting = "Hi!";
     return [{
             id: "hi",
             drawMode: DrawMode.TEXT,
             color: 0x800000,
             drawModeOptions: { font: "5x7", fontPath: pathToFont },
-            points: { x: WIDTH / 2, y: 1, z: 0 },
-            text: "Hi!",
+            points: { x: WIDTH / 2 - greeting.length / 2, y: 1, z: 0 },
+            text: greeting,
             layer: 1
         }]
 }
