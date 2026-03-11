@@ -112,7 +112,7 @@ const getRandomPixelInstructions = (id: string) => {
         ...getGreetingInstructions(true),
         ...getWelcomeMessageInstructions(),
     ]);
-    await new Promise((resolve) => setTimeout(resolve, 1000 * 1));
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
 
     // Display image
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(getImageInstructions());
@@ -132,7 +132,6 @@ const getRandomPixelInstructions = (id: string) => {
     await delay(1000 * 5);
     
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([])
-    await delay(1000 * 5);
 
     // Display buffer
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(await getBufferInstructions());
