@@ -102,7 +102,7 @@ const getRandomPixelInstructions = (id: string) => {
 
 (async () => {
     matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, WIDTH, HEIGHT, [], true));
-    matrix.getCanvas().addCanvasSection(new CanvasSection("icon", 0, 0, 1, 5, 5, [], false));
+    matrix.getCanvas().addCanvasSection(new CanvasSection("icon", 0, 0, 2, 5, 5, [], false));
     matrix.getCanvas().getCanvasSection("icon")?.setRepresentation([{
         id: "iconpixel",
         drawMode: DrawMode.RECTANGLE,
