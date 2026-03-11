@@ -28,7 +28,7 @@ const getGreetingInstructions = () => {
     return [{
             id: "hi",
             drawMode: DrawMode.TEXT,
-            color: getRandomColor(),
+            color: 0x800000,
             drawModeOptions: { font: "5x7", fontPath: pathToFont },
             points: { x: 0, y: 10, z: 0 },
             text: "Hi!",
@@ -67,7 +67,7 @@ const getRandomPixelInstructions = (id: string) => {
     return [{
         id,
         drawMode: DrawMode.PIXEL,
-        color: 0xD3F527,
+        color: getRandomColor(),
         height: 1,
         width: 1,
         drawModeOptions: { effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: Math.random() * 1000 + 100 } }] },
