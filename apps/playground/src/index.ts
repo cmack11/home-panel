@@ -27,13 +27,13 @@ const getPathToImage = () => {
 }
 const pathToImage = getPathToImage();
 
-const getGreetingInstructions = (): PaintingInstruction[] => {
+const getGreetingInstructions = (addEffects: boolean = false): PaintingInstruction[] => {
     const greeting = "Hi!";
     return [{
             id: "hi",
             drawMode: DrawMode.TEXT,
             color: 0x800000,
-            drawModeOptions: { font: "5x7", fontPath: pathToFont },
+            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: addEffects ? [{ effectType: EffectType.SCROLLDOWN, effectOptions: { rate: 50 } }] : [] },
             points: { x: WIDTH / 2 - greeting.length*5 / 2, y: 1, z: 0 },
             text: greeting,
             layer: 1
@@ -48,7 +48,7 @@ const getWelcomeMessageInstructions = (): PaintingInstruction[] => {
             drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 500 } }, { effectType: EffectType.SCROLLLEFT, effectOptions: { rate: 50 } }] },
             points: { x: 0, y: 25, z: 0 },
             text: "Welcome to my demo!",
-            layer: 1
+            layer: 2
         }]
 }
 
@@ -109,7 +109,7 @@ const getRandomPixelInstructions = (id: string) => {
 
     // Display welcome message with effects
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
-        ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
+        ...getGreetingInstructions(true),
         ...getWelcomeMessageInstructions(),
     ]);
     await new Promise((resolve) => setTimeout(resolve, 1000 * 1));
