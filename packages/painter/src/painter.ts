@@ -271,7 +271,24 @@ export class Painter {
 
             // TODO Use promise.all() so we know everything's been drawn to the screen.
             canvasSection.get().representation.sort((a, b) => {return a.layer - b.layer}).forEach(paintingInstruction => {     
-                let dereferencedPaintingInstruction: PaintingInstruction = JSON.parse(JSON.stringify(paintingInstruction));
+                // make a lightweight clone of the instruction so that we can mutate
+                // position/color when applying effects without altering the original
+                // object stored on the canvas.  We also need to preserve the Buffer
+                // reference (JSON.stringify would convert it to an object).  Only the
+                // fields that we modify (points, color, etc.) are shallow-copied here.
+                const dereferencedPaintingInstruction: PaintingInstruction = {
+                    ...paintingInstruction,
+                    buffer: paintingInstruction.buffer, // pass through
+                    points: (() => {
+                        const pts = paintingInstruction.points;
+                        if (Array.isArray(pts)) {
+                            return pts.map(p => ({ ...p }));
+                        } else if (pts && typeof pts === "object") {
+                            return { ...pts };
+                        }
+                        return pts;
+                    })() as any,
+                } as PaintingInstruction;
 
                 instructionPromises.push(new Promise((resolve, reject) => {
                     if(this.paintingInstructionCache[dereferencedPaintingInstruction.id] == undefined){
@@ -424,12 +441,23 @@ export class Painter {
                         }
 
                         case DrawMode.BUFFER: {
-                            // drawBuffer returns void, make sure the promise resolves so the frame
-                            // can complete and matrix.sync() will be called.
+                            // we want to use the cloned instruction here just in case the
+                            // original object is mutated elsewhere; the clone preserved the
+                            // Buffer reference above.  also log dimensions so we can catch
+                            // mismatches early.
+                            const buf = dereferencedPaintingInstruction.buffer || paintingInstruction.buffer;
+                            if (!Buffer.isBuffer(buf)) {
+                                console.warn("BUFFER draw got non-buffer", buf);
+                            }
+                            const w = paintingInstruction.width;
+                            const h = paintingInstruction.height;
+                            console.debug("drawBuffer", { length: buf?.length, w, h });
+
+                            // drawBuffer returns this; synchronous so we resolve immediately
                             this.matrix.drawBuffer(
-                                paintingInstruction.buffer!,
-                                paintingInstruction.width!,
-                                paintingInstruction.height!
+                                buf as Buffer,
+                                w!,
+                                h!
                             ); // TODO better definition: confirm buffer layout/stride
                             resolve(dereferencedPaintingInstruction);
                             break;
