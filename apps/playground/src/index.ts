@@ -45,7 +45,7 @@ const getWelcomeMessageInstructions = (): PaintingInstruction[] => {
             id: "demo",
             drawMode: DrawMode.TEXT,
             color: 0x27D3F5,
-            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 0 } }, { effectType: EffectType.SCROLLLEFT, effectOptions: { rate: 50 } }] },
+            drawModeOptions: { font: "5x7", fontPath: pathToFont, effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 1 } }, { effectType: EffectType.SCROLLLEFT, effectOptions: { rate: 50 } }] },
             points: { x: 0, y: 25, z: 0 },
             text: "Welcome to my demo!",
             layer: 2
