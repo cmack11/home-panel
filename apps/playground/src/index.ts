@@ -69,7 +69,7 @@ const getBufferInstructions = async (): Promise<PaintingInstruction[]> => {
     // const arrayBuffer = await response.arrayBuffer();
     // const gifBuffer = Buffer.from(arrayBuffer);
 
-    const baseBuffer = [...Array(matrix.width() * matrix.height() * 3).keys()];
+    const baseBuffer = [...Array(WIDTH * HEIGHT * 3).keys()];
     const buffer1 = Buffer.of(...baseBuffer.map(() => Math.random() < 0.1 ? 0xFF : 0x00));
     return [{
         id: "bufferdemo",
