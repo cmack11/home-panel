@@ -22,6 +22,7 @@ export class Painter {
     private duration: number; // milliseconds
 
     constructor(matrixOptions: matrix.MatrixOptions, runtimeOptions: matrix.RuntimeOptions){
+        console.log("Initializing painter...");
         this.canvas = new Canvas(matrixOptions, runtimeOptions); // May come in handy for display size, etc.
         this.matrix = new matrix.LedMatrix(matrixOptions, runtimeOptions);
         this.fontCache = [] as matrix.FontInstance[];
