@@ -1,7 +1,6 @@
 import { getPainterMatrix } from "@packages/matrix";
 import path from 'node:path';
 import { delay } from "./utils";
-import { PaintingInstruction } from "packages/painter/dist";
 
 const WIDTH = 64;
 const HEIGHT = 64;
