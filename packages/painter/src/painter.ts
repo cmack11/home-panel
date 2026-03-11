@@ -423,9 +423,9 @@ export class Painter {
                                 break;
                         }
 
-                        // case DrawMode.BUFFER: {
-                        //     this.matrix.drawBuffer(paintingInstruction.buffer!, paintingInstruction.width!, paintingInstruction.height!); // TODO better definition.
-                        // }
+                        case DrawMode.BUFFER: {
+                             this.matrix.drawBuffer(paintingInstruction.buffer!, paintingInstruction.width!, paintingInstruction.height!); // TODO better definition.
+                        }
                     }
                 }));
             });

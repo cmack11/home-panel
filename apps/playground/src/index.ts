@@ -1,12 +1,13 @@
 import { getPainterMatrix } from "@packages/matrix";
 import path from 'node:path';
 import { delay } from "./utils";
+import { PaintingInstruction } from "packages/painter/dist";
 
 const WIDTH = 64;
 const HEIGHT = 64;
 
 const {matrix, controls} = await getPainterMatrix();
-const {DrawMode, CanvasSection, EffectType} = controls;
+const {DrawMode, CanvasSection, EffectType, PaintingInstruction } = controls;
 
 const getRandomColor = (): number => {
   const r = Math.floor(Math.random() * 256); // 0-255
@@ -27,7 +28,7 @@ const getPathToImage = () => {
 }
 const pathToImage = getPathToImage();
 
-const getGreetingInstructions = () => {
+const getGreetingInstructions = (): PaintingInstruction[] => {
     const greeting = "Hi!";
     return [{
             id: "hi",
@@ -40,7 +41,7 @@ const getGreetingInstructions = () => {
         }]
 }
 
-const getWelcomeMessageInstructions = () => {
+const getWelcomeMessageInstructions = (): PaintingInstruction[] => {
     return [{
             id: "demo",
             drawMode: DrawMode.TEXT,
@@ -52,7 +53,7 @@ const getWelcomeMessageInstructions = () => {
         }]
 }
 
-const getImageInstructions = () => {
+const getImageInstructions = (): PaintingInstruction[] => {
     return [{
         id: "sabrina",
         drawMode: DrawMode.IMAGE,
@@ -60,6 +61,22 @@ const getImageInstructions = () => {
         imagePath: pathToImage,
         points: { x: 0, y: 0, z: 0 },
         layer: 7
+    }]
+}
+
+const getBufferInstructions = async (): Promise<PaintingInstruction[]> => {
+    const response = await fetch("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWNvNDZidW55djRpYmdvd3BuN2QwZGkxbTY2Y2E3OHA4cW14OWtvdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IJw8FZ7WrMHoB2kidG/giphy.gif")
+    const arrayBuffer = await response.arrayBuffer();
+    const gifBuffer = Buffer.from(arrayBuffer);
+    return [{
+        id: "bufferdemo",
+        drawMode: DrawMode.BUFFER,
+        buffer: gifBuffer,
+        color: 0x000000,
+        height: HEIGHT,
+        width: WIDTH,
+        points: { x: 0, y: 0, z: 0 },
+        layer: 1
     }]
 }
 
@@ -109,8 +126,12 @@ const getRandomPixelInstructions = (id: string) => {
         ]);
         await delay(Math.random() * 100, { verbose: false });
     }
-
     await delay(1000 * 1);
+
+    // Display buffer
+    matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(await getBufferInstructions());
+    await delay(1000 * 5);
+
     clearInterval(interval);
     matrix.clear();
 })();
