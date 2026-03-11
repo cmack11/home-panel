@@ -381,6 +381,7 @@ export class Painter {
                             break;
                         }
                         case DrawMode.TEXT: {
+                            console.log("Drawing text with id " + paintingInstruction.id);
                             let text = (dereferencedPaintingInstruction.text as string);
                             let x = (dereferencedPaintingInstruction.points as Point).x + canvasSection.x;
                             let y = (dereferencedPaintingInstruction.points as Point).y + canvasSection.y;
@@ -415,6 +416,7 @@ export class Painter {
                             break;
                         }
                         case DrawMode.IMAGE: { 
+                            console.log("Drawing image with id " + paintingInstruction.id);
                             // Loop through image points and use SetPixel.
                             let newPaintingInstruction: PaintingInstruction = this.applyEffects(dereferencedPaintingInstruction, canvasSection) as PaintingInstruction;
                             this.getImageInstance(dereferencedPaintingInstruction.imagePath!)
@@ -441,23 +443,13 @@ export class Painter {
                         }
 
                         case DrawMode.BUFFER: {
-                            // we want to use the cloned instruction here just in case the
-                            // original object is mutated elsewhere; the clone preserved the
-                            // Buffer reference above.  also log dimensions so we can catch
-                            // mismatches early.
-                            const buf = dereferencedPaintingInstruction.buffer || paintingInstruction.buffer;
-                            if (!Buffer.isBuffer(buf)) {
-                                console.warn("BUFFER draw got non-buffer", buf);
-                            }
-                            const w = paintingInstruction.width;
-                            const h = paintingInstruction.height;
-                            console.debug("drawBuffer", { length: buf?.length, w, h });
-
-                            // drawBuffer returns this; synchronous so we resolve immediately
+                            console.log("Drawing buffer with id " + paintingInstruction.id);
+                            // drawBuffer returns void, make sure the promise resolves so the frame
+                            // can complete and matrix.sync() will be called.
                             this.matrix.drawBuffer(
-                                buf as Buffer,
-                                w!,
-                                h!
+                                paintingInstruction.buffer!,
+                                paintingInstruction.width!,
+                                paintingInstruction.height!
                             ); // TODO better definition: confirm buffer layout/stride
                             resolve(dereferencedPaintingInstruction);
                             break;
