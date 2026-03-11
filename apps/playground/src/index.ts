@@ -130,7 +130,8 @@ const getRandomPixelInstructions = (id: string) => {
         await delay(Math.random() * 100, { verbose: false });
     }
     await delay(1000 * 1);
-    matrix.clear();
+    
+    matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([])
 
     // Display buffer
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(await getBufferInstructions());
