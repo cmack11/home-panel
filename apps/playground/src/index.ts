@@ -105,18 +105,18 @@ const getRandomPixelInstructions = (id: string) => {
     const interval = setInterval(() => matrix.paint(), 5);
     // Display greeting
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(getGreetingInstructions());
-    await delay(1000 * 3);
+    await delay(1000 * 1);
 
     // Display welcome message with effects
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
         ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
         ...getWelcomeMessageInstructions(),
     ]);
-    await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 1));
 
     // Display image
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(getImageInstructions());
-    await delay(1000 * 5);
+    await delay(1000 * 1);
 
     // Clear
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([])
@@ -130,6 +130,7 @@ const getRandomPixelInstructions = (id: string) => {
         await delay(Math.random() * 100, { verbose: false });
     }
     await delay(1000 * 1);
+    matrix.clear();
 
     // Display buffer
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(await getBufferInstructions());
