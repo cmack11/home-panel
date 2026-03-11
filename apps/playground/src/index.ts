@@ -33,7 +33,7 @@ const getGreetingInstructions = () => {
             drawMode: DrawMode.TEXT,
             color: 0x800000,
             drawModeOptions: { font: "5x7", fontPath: pathToFont },
-            points: { x: 5, y: 7, z: 0 },
+            points: { x: WIDTH / 2, y: 1, z: 0 },
             text: "Hi!",
             layer: 1
         }]
