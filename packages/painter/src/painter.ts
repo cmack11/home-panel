@@ -22,7 +22,6 @@ export class Painter {
     private duration: number; // milliseconds
 
     constructor(matrixOptions: matrix.MatrixOptions, runtimeOptions: matrix.RuntimeOptions){
-        console.log("Initializing painter...");
         this.canvas = new Canvas(matrixOptions, runtimeOptions); // May come in handy for display size, etc.
         this.matrix = new matrix.LedMatrix(matrixOptions, runtimeOptions);
         this.fontCache = [] as matrix.FontInstance[];
@@ -382,7 +381,6 @@ export class Painter {
                             break;
                         }
                         case DrawMode.TEXT: {
-                            console.log("Drawing text with id " + paintingInstruction.id);
                             let text = (dereferencedPaintingInstruction.text as string);
                             let x = (dereferencedPaintingInstruction.points as Point).x + canvasSection.x;
                             let y = (dereferencedPaintingInstruction.points as Point).y + canvasSection.y;
@@ -417,7 +415,6 @@ export class Painter {
                             break;
                         }
                         case DrawMode.IMAGE: { 
-                            console.log("Drawing image with id " + paintingInstruction.id);
                             // Loop through image points and use SetPixel.
                             let newPaintingInstruction: PaintingInstruction = this.applyEffects(dereferencedPaintingInstruction, canvasSection) as PaintingInstruction;
                             this.getImageInstance(dereferencedPaintingInstruction.imagePath!)
@@ -444,7 +441,6 @@ export class Painter {
                         }
 
                         case DrawMode.BUFFER: {
-                            console.log("Drawing buffer with id " + paintingInstruction.id);
                             // drawBuffer returns void, make sure the promise resolves so the frame
                             // can complete and matrix.sync() will be called.
                             this.matrix.drawBuffer(
