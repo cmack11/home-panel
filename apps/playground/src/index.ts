@@ -2,6 +2,9 @@ import { getPainterMatrix } from "@packages/matrix";
 import path from 'node:path';
 import { delay } from "./utils";
 
+const WIDTH = 64;
+const HEIGHT = 64;
+
 const {matrix, controls} = await getPainterMatrix();
 const {DrawMode, CanvasSection, EffectType} = controls;
 
@@ -30,7 +33,7 @@ const getGreetingInstructions = () => {
             drawMode: DrawMode.TEXT,
             color: 0x800000,
             drawModeOptions: { font: "5x7", fontPath: pathToFont },
-            points: { x: 0, y: 10, z: 0 },
+            points: { x: 5, y: 7, z: 0 },
             text: "Hi!",
             layer: 1
         }]
@@ -60,9 +63,9 @@ const getImageInstructions = () => {
 }
 
 const getRandomPixelInstructions = (id: string) => {
-    const num = Math.random() * 64*64
-    const x = Math.floor(num % 64);
-    const y = Math.floor(num / 64);
+    const num = Math.random() * WIDTH*HEIGHT
+    const x = Math.floor(num % WIDTH);
+    const y = Math.floor(num / HEIGHT);
 
     return [{
         id,
@@ -77,7 +80,7 @@ const getRandomPixelInstructions = (id: string) => {
 }
 
 (async () => {
-    matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, 64, 64, [], true));
+    matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, WIDTH, HEIGHT, [], true));
     const interval = setInterval(() => matrix.paint(), 5);
     // Display greeting
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(getGreetingInstructions());
@@ -98,7 +101,7 @@ const getRandomPixelInstructions = (id: string) => {
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([])
 
     // Display random pixels with effects
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 200; i++) {
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
             ...getRandomPixelInstructions(`randompixel-${i}`),
