@@ -18,7 +18,7 @@
     "typescript",
     "declarative"
   ],
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
     "postinstall": "npm run build",
