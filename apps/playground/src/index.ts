@@ -122,7 +122,7 @@ const getRandomPixelInstructions = (id: string) => {
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([])
 
     // Display random pixels with effects
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 20; i++) {
         matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([
             ...matrix.getCanvas().getCanvasSection("mycanvassection")?.representation || [],
             ...getRandomPixelInstructions(`randompixel-${i}`),
@@ -132,6 +132,7 @@ const getRandomPixelInstructions = (id: string) => {
     await delay(1000 * 1);
     
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation([])
+    await delay(1000 * 1);
 
     // Display buffer
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(await getBufferInstructions());
