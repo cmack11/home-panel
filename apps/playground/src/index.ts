@@ -65,13 +65,16 @@ const getImageInstructions = (): PaintingInstruction[] => {
 }
 
 const getBufferInstructions = async (): Promise<PaintingInstruction[]> => {
-    const response = await fetch("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWNvNDZidW55djRpYmdvd3BuN2QwZGkxbTY2Y2E3OHA4cW14OWtvdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IJw8FZ7WrMHoB2kidG/giphy.gif")
-    const arrayBuffer = await response.arrayBuffer();
-    const gifBuffer = Buffer.from(arrayBuffer);
+    // const response = await fetch("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWNvNDZidW55djRpYmdvd3BuN2QwZGkxbTY2Y2E3OHA4cW14OWtvdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IJw8FZ7WrMHoB2kidG/giphy.gif")
+    // const arrayBuffer = await response.arrayBuffer();
+    // const gifBuffer = Buffer.from(arrayBuffer);
+
+    const baseBuffer = [...Array(matrix.width() * matrix.height() * 3).keys()];
+    const buffer1 = Buffer.of(...baseBuffer.map(() => Math.random() < 0.1 ? 0xFF : 0x00));
     return [{
         id: "bufferdemo",
         drawMode: DrawMode.BUFFER,
-        buffer: gifBuffer,
+        buffer: buffer1,
         color: 0x000000,
         height: HEIGHT,
         width: WIDTH,
