@@ -75,6 +75,7 @@ const getBufferInstructions = async (): Promise<PaintingInstruction[]> => {
         drawMode: DrawMode.BUFFER,
         buffer: buffer1,
         color: 0x000000,
+        drawModeOptions: { effects: [{ effectType: EffectType.PULSE, effectOptions: { rate: 10 } }] },
         height: HEIGHT/2,
         width: WIDTH/2,
         points: { x: 10, y: 10, z: 0 },
