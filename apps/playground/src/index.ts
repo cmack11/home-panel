@@ -68,15 +68,15 @@ const getBufferInstructions = async (): Promise<PaintingInstruction[]> => {
     // const arrayBuffer = await response.arrayBuffer();
     // const gifBuffer = Buffer.from(arrayBuffer);
 
-    const baseBuffer = [...Array(WIDTH * HEIGHT * 3).keys()];
+    const baseBuffer = [...Array((WIDTH/2) * (HEIGHT/2) * 3).keys()];
     const buffer1 = Buffer.of(...baseBuffer.map(() => Math.random() < 0.1 ? 0xFF : 0x00));
     return [{
         id: "bufferdemo",
         drawMode: DrawMode.BUFFER,
         buffer: buffer1,
         color: 0x000000,
-        height: HEIGHT,
-        width: WIDTH,
+        height: HEIGHT/2,
+        width: WIDTH/2,
         points: { x: 0, y: 0, z: 0 },
         layer: 1
     }]
