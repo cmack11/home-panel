@@ -102,6 +102,17 @@ const getRandomPixelInstructions = (id: string) => {
 
 (async () => {
     matrix.getCanvas().addCanvasSection(new CanvasSection("mycanvassection", 0, 0, 1, WIDTH, HEIGHT, [], true));
+    matrix.getCanvas().addCanvasSection(new CanvasSection("icon", 0, 0, 1, 5, 5, [], false));
+    matrix.getCanvas().getCanvasSection("icon")?.setRepresentation([{
+        id: "iconpixel",
+        drawMode: DrawMode.RECTANGLE,
+        drawModeOptions: { fill: true},
+        color: getRandomColor(),
+        height: 5,
+        width: 5,
+        points: { x: 0, y: 0, z: 0 },
+        layer: 10
+    }]);
     const interval = setInterval(() => matrix.paint(), 5);
     // Display greeting
     matrix.getCanvas().getCanvasSection("mycanvassection")?.setRepresentation(getGreetingInstructions());
