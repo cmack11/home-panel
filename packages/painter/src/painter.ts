@@ -14,6 +14,7 @@ export class Painter {
 
     private canvas: Canvas;
     private matrix: matrix.LedMatrixInstance;
+
     private fontCache: matrix.FontInstance[];
     private imageCache: Image[];
     private paintingInstructionCache: PaintingInstructionCache;
@@ -23,6 +24,10 @@ export class Painter {
     private duration: number;
 
     private renderers: Record<DrawMode, Function>;
+
+    private framebuffer: Buffer;
+    private matrixWidth: number;
+    private matrixHeight: number;
 
     constructor(matrixOptions: matrix.MatrixOptions, runtimeOptions: matrix.RuntimeOptions){
 
@@ -36,6 +41,11 @@ export class Painter {
         this.startTime = new Date();
         this.currentTime = new Date();
         this.duration = 0;
+
+        this.matrixWidth = this.matrix.width();
+        this.matrixHeight = this.matrix.height();
+
+        this.framebuffer = Buffer.alloc(this.matrixWidth * this.matrixHeight * 3);
 
         this.renderers = {
             [DrawMode.LINE]: this.renderLine.bind(this),
@@ -56,7 +66,9 @@ export class Painter {
     }
 
     public clear(){
-        this.matrix.clear();
+        this.framebuffer.fill(0);
+        this.matrix.drawBuffer(this.framebuffer,this.matrixWidth,this.matrixHeight);
+        this.matrix.sync();
     }
 
     public resetClock(){
@@ -80,12 +92,23 @@ export class Painter {
     }
 
     private translatePoint(point: Point, section: CanvasSection): Point {
-    return {
-        x: point.x + section.x,
-        y: point.y + section.y,
-        z: point.z
-    };
-}
+        return {
+            x: point.x + section.x,
+            y: point.y + section.y,
+            z: point.z
+        };
+    }
+
+    private setPixel(x:number,y:number,r:number,g:number,b:number){
+
+        if(x<0||x>=this.matrixWidth||y<0||y>=this.matrixHeight) return;
+
+        const i = (y*this.matrixWidth+x)*3;
+
+        this.framebuffer[i]=r;
+        this.framebuffer[i+1]=g;
+        this.framebuffer[i+2]=b;
+    }
 
     public getFontInstance(name: string, path: string){
 
@@ -160,13 +183,6 @@ export class Painter {
                     height: font.height()
                 };
 
-            case DrawMode.IMAGE:
-
-                return {
-                    width: instr.width!,
-                    height: instr.height!
-                };
-
             default:
 
                 return {
@@ -192,27 +208,22 @@ export class Painter {
             switch(effect.effectType){
 
                 case EffectType.SCROLLLEFT:
-
                     dx = section.width - ((this.duration / effect.effectOptions.rate) % (dims.width + section.width));
                     break;
 
                 case EffectType.SCROLLRIGHT:
-
                     dx = ((this.duration / effect.effectOptions.rate) % (dims.width + section.width)) - dims.width;
                     break;
 
                 case EffectType.SCROLLUP:
-
                     dy = section.height + ((this.duration / effect.effectOptions.rate) % (dims.height + section.height));
                     break;
 
                 case EffectType.SCROLLDOWN:
-
                     dy = ((this.duration / effect.effectOptions.rate) % (dims.height + section.height)) - dims.height;
                     break;
 
                 case EffectType.BLINK:
-
                     if(Math.floor(this.duration / effect.effectOptions.rate) % 2 == 1)
                         draw=false;
                     break;
@@ -254,16 +265,13 @@ export class Painter {
     public paint(){
 
         this.tick();
-        this.matrix.clear();
+        this.framebuffer.fill(0);
 
         const promises:Promise<any>[] = [];
 
         this.canvas.getCanvasSections()
         .sort((a,b)=>a.z-b.z)
         .forEach(section=>{
-
-            this.matrix.fgColor(0x000000);
-            this.matrix.fill(section.x,section.y,section.x+section.width-1,section.y+section.height-1);
 
             section.get().representation
             .sort((a,b)=>a.layer-b.layer)
@@ -294,8 +302,76 @@ export class Painter {
         });
 
         Promise.all(promises).then(()=>{
+            this.matrix.drawBuffer(this.framebuffer,this.matrixWidth,this.matrixHeight);
             this.matrix.sync();
         });
+
+    }
+
+    private renderPixel(instr:PaintingInstruction,section:CanvasSection){
+
+        const color = instr.color;
+
+        const r=(color>>16)&255;
+        const g=(color>>8)&255;
+        const b=color&255;
+
+        (instr.points as Point[]).forEach(p=>{
+
+            const t = this.translatePoint(p,section);
+
+            this.setPixel(t.x,t.y,r,g,b);
+
+        });
+
+    }
+
+    private renderBuffer(instr:PaintingInstruction,section:CanvasSection){
+
+        const p = this.translatePoint(instr.points as Point,section);
+
+        const src = instr.buffer!;
+        const width = instr.width!;
+        const height = instr.height!;
+
+        for(let y=0;y<height;y++){
+            for(let x=0;x<width;x++){
+
+                const srcIndex=(y*width+x)*3;
+
+                const r=src[srcIndex];
+                const g=src[srcIndex+1];
+                const b=src[srcIndex+2];
+
+                this.setPixel(p.x+x,p.y+y,r,g,b);
+
+            }
+        }
+
+    }
+
+    private async renderImage(instr:PaintingInstruction,section:CanvasSection){
+
+        const img = await this.getImageInstance(instr.imagePath!);
+        const p = this.translatePoint(instr.points as Point,section);
+
+        for(let y=0;y<img.height;y++){
+            for(let x=0;x<img.width;x++){
+
+                const color = img.content[x][y];
+
+                if((color & 0x000000FF)!=0){
+
+                    const r=(color>>24)&255;
+                    const g=(color>>16)&255;
+                    const b=(color>>8)&255;
+
+                    this.setPixel(p.x+x,p.y+y,r,g,b);
+
+                }
+
+            }
+        }
 
     }
 
@@ -361,20 +437,6 @@ export class Painter {
 
     }
 
-    private renderPixel(instr:PaintingInstruction,section:CanvasSection){
-
-        this.matrix.fgColor(instr.color);
-
-        (instr.points as Point[]).forEach(p=>{
-
-            const t = this.translatePoint(p,section);
-
-            this.matrix.setPixel(t.x,t.y);
-
-        });
-
-    }
-
     private renderText(instr:PaintingInstruction,section:CanvasSection){
 
         const text = instr.text!;
@@ -388,78 +450,7 @@ export class Painter {
         this.matrix.font(font);
         this.matrix.fgColor(instr.color);
 
-        let x = p.x;
-
-        for(let c=0;c<text.length;c++){
-
-            const ch = text.charAt(c);
-
-            this.matrix.drawText(ch,x,p.y);
-
-            x += font.stringWidth(ch);
-
-        }
-
-    }
-
-    private async renderImage(instr:PaintingInstruction,section:CanvasSection){
-
-        const img = await this.getImageInstance(instr.imagePath!);
-
-        const p = this.translatePoint(instr.points as Point,section);
-
-        for(let y=0;y<img.height;y++){
-
-            for(let x=0;x<img.width;x++){
-
-                const color = img.content[x][y];
-
-                if((color & 0x000000FF)!=0){
-
-                    this.matrix.fgColor(color>>>8);
-                    this.matrix.setPixel(p.x+x,p.y+y);
-
-                }
-
-            }
-
-        }
-
-    }
-
-    private renderBuffer(instr:PaintingInstruction,section:CanvasSection){
-
-        const p = this.translatePoint(instr.points as Point,section);
-
-        const src = instr.buffer!;
-        const width = instr.width!;
-        const height = instr.height!;
-
-        const matrixWidth = this.matrix.width();
-        const matrixHeight = this.matrix.height();
-
-        const dest = Buffer.alloc(matrixWidth * matrixHeight * 3);
-
-        for(let y=0;y<height;y++){
-            for(let x=0;x<width;x++){
-
-                const srcIndex = (y*width+x)*3;
-
-                const dx = p.x + x;
-                const dy = p.y + y;
-
-                if(dx<0||dx>=matrixWidth||dy<0||dy>=matrixHeight) continue;
-
-                const destIndex = (dy*matrixWidth+dx)*3;
-
-                dest[destIndex] = src[srcIndex];
-                dest[destIndex+1] = src[srcIndex+1];
-                dest[destIndex+2] = src[srcIndex+2];
-
-            }
-        }
-
-        this.matrix.drawBuffer(dest,matrixWidth,matrixHeight);
+        this.matrix.drawText(text,p.x,p.y);
 
     }
 
