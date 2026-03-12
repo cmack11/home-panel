@@ -10,7 +10,7 @@ export class Canvas {
         this.matrix = getMatrix();
     }
 
-    public paint(x: number, y: number): void {
+    public paint(x: number = 0, y: number = 0): void {
         if(x >= (this.matrix?.width() ?? 64) || y >= (this.matrix?.height() ?? 64)){
             return;
         }
@@ -18,6 +18,6 @@ export class Canvas {
             .fgColor({ r: 255, g: 0, b: 0 })
             .bgColor({ r: 0, g: 0, b: 0 })
             .setPixel(x, y)
-            .afterSync(() => this.paint(x+1, y+1));
+            .sync();
     }
 }
