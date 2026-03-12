@@ -55,4 +55,11 @@ export class Canvas {
     public clear(): void {
         this.matrix?.clear().sync();
     }
+
+    public shutdown(): void {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
+        this.matrix?.clear().sync();
+    }
 }
