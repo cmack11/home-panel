@@ -1,0 +1,19 @@
+import { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType } from "rpi-led-matrix"
+
+export const getMatrix = () => {
+    return new LedMatrix({
+		...LedMatrix.defaultMatrixOptions(),
+		rows: 32,
+		cols: 64,
+		chainLength: 2,
+		hardwareMapping: GpioMapping.AdafruitHat,
+		pixelMapperConfig: LedMatrixUtils.encodeMappers({
+			type: PixelMapperType.U,
+		})
+
+	}, {
+		...LedMatrix.defaultRuntimeOptions(),
+		gpioSlowdown: 4,
+		dropPrivileges: 0,
+	})
+}

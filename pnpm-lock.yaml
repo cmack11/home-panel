@@ -28,6 +28,21 @@ importers:
         specifier: workspace:*
         version: link:../../packages/painter
 
+  apps/playground-two:
+    dependencies:
+      '@packages/canvas':
+        specifier: workspace:*
+        version: link:../../packages/canvas
+
+  packages/canvas:
+    dependencies:
+      '@packages/matrix':
+        specifier: workspace:*
+        version: link:../matrix
+      rpi-led-matrix:
+        specifier: ^1.15.0
+        version: 1.15.0
+
   packages/matrix:
     dependencies:
       '@packages/painter':
