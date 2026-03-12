@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start:playground": "pnpm --filter @apps/playground start",
-    "start:playground-two": "pnpm --filter @apps/playground-two start",
-    "build": "pnpm --filter @packages/painter build"
+    "start:playground-two": "pnpm --filter @apps/playground-two start"
   },
   "keywords": [],
   "author": "",
