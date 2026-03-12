@@ -36,9 +36,6 @@ importers:
 
   packages/canvas:
     dependencies:
-      '@packages/matrix':
-        specifier: workspace:*
-        version: link:../matrix
       rpi-led-matrix:
         specifier: ^1.15.0
         version: 1.15.0
