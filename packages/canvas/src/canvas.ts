@@ -15,9 +15,12 @@ export class Canvas {
             return;
         }
         this.matrix?.clear().brightness(50)
-            .fgColor({ r: 255, g: 0, b: 0 })
-            .bgColor({ r: 0, g: 0, b: 0 })
+            .fgColor({ r: Math.floor(Math.random()*255), g: Math.floor(Math.random()*255), b: Math.floor(Math.random()*255) })
             .setPixel(x, y)
             .sync();
+    }
+
+    public clear(): void {
+        this.matrix?.clear().sync();
     }
 }
