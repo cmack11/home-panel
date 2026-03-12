@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:playground": "pnpm --filter @apps/playground start"
+    "start:playground": "pnpm --filter @apps/playground start",
+    "build": "pnpm --filter @packages/painter build"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,7 @@
   "packageManager": "pnpm@10.30.3",
   "pnpm": {
     "onlyBuiltDependencies": [
+      "bun",
       "rpi-led-matrix",
       "rpi-led-matrix-painter",
       "wesleytabaka-rpi-led-matrix"
@@ -21,5 +23,8 @@
   "devDependencies": {
     "@types/node": "^25.3.5",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "bun": "^1.3.10"
   }
 }
