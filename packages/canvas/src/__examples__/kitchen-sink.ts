@@ -63,42 +63,42 @@ const spin = async (matrix: LedMatrixInstance, speed = 50, clear = true) => {
     matrix.clear();
     await wait(interval);
 
-    {
-      // Text positions
-      const font = new Font('helvR12', `${process.cwd()}/src/__examples__/fonts/helvR12.bdf`);
-      matrix.font(font);
-      const lines = LayoutUtils.textToLines(
-        font,
-        matrix.width(),
-        'Hello, matrix!'
-      );
+    // {
+    //   // Text positions
+    //   const font = new Font('helvR12', `${process.cwd()}/src/__examples__/fonts/helvR12.bdf`);
+    //   matrix.font(font);
+    //   const lines = LayoutUtils.textToLines(
+    //     font,
+    //     matrix.width(),
+    //     'Hello, matrix!'
+    //   );
 
-      for (const alignmentH of [
-        HorizontalAlignment.Left,
-        HorizontalAlignment.Center,
-        HorizontalAlignment.Right,
-      ]) {
-        for (const alignmentV of [
-          VerticalAlignment.Top,
-          VerticalAlignment.Middle,
-          VerticalAlignment.Bottom,
-        ]) {
-          matrix.fgColor(rainbow(Math.floor(64 * Math.random()))).clear();
-          LayoutUtils.linesToMappedGlyphs(
-            lines,
-            font.height(),
-            matrix.width(),
-            matrix.height(),
-            alignmentH,
-            alignmentV
-          ).map(glyph => {
-            matrix.drawText(glyph.char, glyph.x, glyph.y);
-          });
-          matrix.sync();
-          await wait(400);
-        }
-      }
-    }
+    //   for (const alignmentH of [
+    //     HorizontalAlignment.Left,
+    //     HorizontalAlignment.Center,
+    //     HorizontalAlignment.Right,
+    //   ]) {
+    //     for (const alignmentV of [
+    //       VerticalAlignment.Top,
+    //       VerticalAlignment.Middle,
+    //       VerticalAlignment.Bottom,
+    //     ]) {
+    //       matrix.fgColor(rainbow(Math.floor(64 * Math.random()))).clear();
+    //       LayoutUtils.linesToMappedGlyphs(
+    //         lines,
+    //         font.height(),
+    //         matrix.width(),
+    //         matrix.height(),
+    //         alignmentH,
+    //         alignmentV
+    //       ).map(glyph => {
+    //         matrix.drawText(glyph.char, glyph.x, glyph.y);
+    //       });
+    //       matrix.sync();
+    //       await wait(400);
+    //     }
+    //   }
+    // }
 
     // Clear section
     {
