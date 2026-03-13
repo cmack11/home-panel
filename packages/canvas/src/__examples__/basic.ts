@@ -6,7 +6,7 @@ const fill = () => {
     for (let x = 0; x < matrix.width(); x++) {
         const color = { r: Math.random() * 255, g: Math.random() * 255, b: Math.random() * 255 };
         for (let y = 0; y < matrix.height(); y++) {
-            matrix.fgColor(color).setPixel(x, y);
+            matrix.fgColor(color).brightness(Math.random() * 100).setPixel(x, y);
         }
     }
 }
