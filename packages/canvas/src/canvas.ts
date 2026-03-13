@@ -51,7 +51,7 @@ export class Canvas {
                 }
             }
         }
-        setTimeout(() => this.matrix?.sync(), 2000);
+        setTimeout(() => this.matrix?.sync(), 1000 / 30);
     }
 
     public clear(): void {
