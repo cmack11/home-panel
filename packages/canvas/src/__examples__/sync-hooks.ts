@@ -4,7 +4,7 @@ import { Color } from '../color';
 
 const rainbow64 = Array.from(Array(384))
   .map((_, i, { length }) => Math.floor((360 * i) / length))
-  .map(hue => Color.random().getRGB());
+  .map(hue => Color.fromHex(`#ff00ff`).getRGB());
 
 class Pulser {
   constructor(
