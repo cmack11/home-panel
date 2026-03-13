@@ -39,7 +39,7 @@ if (section3) {
 if (section4) {
     for (let x = 0; x < 32; x++) {
         for (let y = 0; y < 32; y++) {
-            section4.setPixel(x, y, Color.fromHex("#ff00ff"), 25);
+            section4.setPixel(x, y, Color.fromHex("#ff00ff"), 1);
         }
     }
 }
