@@ -24,4 +24,7 @@ matrix
   .drawLine(matrix.width() - 1, 0, 0, matrix.height() - 1)
   .sync();
 
-await new Promise((resolve) => setTimeout(resolve, 1000 * 30));
+await new Promise((resolve) => setTimeout(() => {
+    matrix.clear().sync();
+    resolve(undefined);
+}, 1000 * 30));
