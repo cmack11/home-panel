@@ -47,7 +47,7 @@ export class Canvas {
         for (const row of pixelsForPainting) {
             for (const pixel of row) {
                 if (pixel) {
-                    this.matrix?.fgColor(pixel.getColor().getRGB())?.setPixel(pixel.getX(), pixel.getY());
+                    this.matrix?.fgColor(pixel.getColor().getRGB())?.brightness(pixel.getBrightness())?.setPixel(pixel.getX(), pixel.getY());
                 }
             }
         }
