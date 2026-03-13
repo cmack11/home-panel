@@ -25,10 +25,10 @@ export class Canvas {
     }
 
     private startPaintingLoop(): void {
-        this.matrix?.fgColor(Color.fromHex("#ffffff").getRGB()).brightness(25).fill().sync();
         this.matrix?.afterSync(() => {
             this.paint();
         });
+        this.matrix?.fgColor(Color.fromHex("#ffffff").getRGB()).brightness(25).fill().sync();
     }
 
     public paint(): void {
