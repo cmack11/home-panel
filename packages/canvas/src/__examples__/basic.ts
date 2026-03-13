@@ -11,8 +11,8 @@ const fill = () => {
     }
 }
 matrix.afterSync(() => {
+    fill();
     setTimeout(() => {
-        fill();
         matrix.sync();
     }, 1000);
 });
