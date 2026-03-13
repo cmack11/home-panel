@@ -2,6 +2,7 @@ import { getMatrix } from "../get-matrix";
 
 
 const matrix = getMatrix();
+matrix.brightness(25).sync();
 const fill = () => {
     for (let x = 0; x < matrix.width(); x++) {
         const color = { r: Math.random() * 255, g: Math.random() * 255, b: Math.random() * 255 };
