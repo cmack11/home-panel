@@ -1,4 +1,4 @@
-import { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType } from "rpi-led-matrix"
+import { LedMatrix, GpioMapping, LedMatrixUtils, PixelMapperType, RuntimeFlag } from "rpi-led-matrix"
 
 export const getMatrix = () => {
     return new LedMatrix({
@@ -14,6 +14,6 @@ export const getMatrix = () => {
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
 		gpioSlowdown: 4,
-		dropPrivileges: 0,
+		dropPrivileges: RuntimeFlag.On,
 	})
 }
