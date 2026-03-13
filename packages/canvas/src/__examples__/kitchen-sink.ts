@@ -65,7 +65,7 @@ const spin = async (matrix: LedMatrixInstance, speed = 50, clear = true) => {
 
     {
       // Text positions
-      const font = new Font('helvR12', `${process.cwd()}/fonts/helvR12.bdf`);
+      const font = new Font('helvR12', `${process.cwd()}src/__examples__/fonts/helvR12.bdf`);
       matrix.font(font);
       const lines = LayoutUtils.textToLines(
         font,
