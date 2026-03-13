@@ -8,7 +8,8 @@
   },
   "scripts": {
     "kitchen-sink": "bun src/__examples__/kitchen-sink.ts",
-    "sync-hooks": "bun src/__examples__/sync-hooks.ts"
+    "sync-hooks": "bun src/__examples__/sync-hooks.ts",
+    "basic": "bun src/__examples__/basic.ts"
   },
   "keywords": [],
   "author": "",
