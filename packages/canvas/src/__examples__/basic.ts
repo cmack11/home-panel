@@ -24,6 +24,14 @@ matrix
   .drawLine(matrix.width() - 1, 0, 0, matrix.height() - 1)
   .sync();
 
+setInterval(() => {
+  matrix
+    .clear()
+    .fgColor({ r: Math.random() * 255, g: Math.random() * 255, b: Math.random() * 255 })
+    .fill()
+    .sync();
+}, 5000);
+
 await new Promise((resolve) => setTimeout(() => {
     matrix.clear().sync();
     resolve(undefined);
