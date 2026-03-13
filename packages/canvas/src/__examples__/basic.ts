@@ -20,6 +20,12 @@ fill();
 matrix.sync();
 
 await new Promise((resolve) => setTimeout(() => {
+    matrix.afterSync(() => undefined);
+    matrix.sync();
+    resolve(undefined);
+}, 1000 * 10));
+
+await new Promise((resolve) => setTimeout(() => {
     matrix.clear().sync();
     resolve(undefined);
-}, 1000 * 30));
+}, 1000 * 10));
