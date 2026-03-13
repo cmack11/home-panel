@@ -60,7 +60,9 @@ export class Canvas {
 
     public shutdown(): void {
         this.matrix?.afterSync(() => {
-            this.matrix?.clear().sync();
+            this.matrix?.clear()
+            this.matrix?.afterSync(() => undefined);
+            setTimeout(() => this.matrix?.sync(), 0);
         });
     }
 }
