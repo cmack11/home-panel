@@ -2,6 +2,7 @@ import { LedMatrixInstance } from "rpi-led-matrix";
 import { getMatrix } from "./get-matrix";
 import { CanvasSection } from "./canvas-section";
 import { Pixel } from "./pixel";
+import { Color } from "./color";
 
 
 export class Canvas {
@@ -24,9 +25,10 @@ export class Canvas {
     }
 
     private startPaintingLoop(): void {
-        this.intervalId = setInterval(() => {
+        this.matrix?.fgColor(Color.fromHex("#ffffff").getRGB()).brightness(25).fill().sync();
+        this.matrix?.afterSync(() => {
             this.paint();
-        }, 1000 / 30); // 30 FPS
+        });
     }
 
     public paint(): void {
@@ -45,7 +47,7 @@ export class Canvas {
         for (const row of pixelsForPainting) {
             for (const pixel of row) {
                 if (pixel) {
-                    this.matrix?.fgColor(pixel.getColor() as any)?.setPixel(pixel.getX(), pixel.getY());
+                    this.matrix?.fgColor(pixel.getColor().getRGB())?.setPixel(pixel.getX(), pixel.getY());
                 }
             }
         }
@@ -57,9 +59,8 @@ export class Canvas {
     }
 
     public shutdown(): void {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-        }
-        this.matrix?.clear().sync();
+        this.matrix?.afterSync(() => {
+            this.matrix?.clear().sync();
+        });
     }
 }
