@@ -4,7 +4,7 @@ import { getMatrix } from "../get-matrix";
 const matrix = getMatrix();
 const fill = () => {
     for (let x = 0; x < matrix.width(); x++) {
-        const color = { r: Math.random() * 50, g: Math.random() * 50, b: Math.random() * 50 };
+        const color = { r: Math.random() * 50+255, g: Math.random() * 50+255, b: Math.random() * 50+255 };
         for (let y = 0; y < matrix.height(); y++) {
             matrix.fgColor(color).setPixel(x, y);
         }
