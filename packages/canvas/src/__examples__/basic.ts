@@ -10,22 +10,22 @@ const fill = () => {
         }
     }
 }
-matrix.afterSync(() => {
-    fill();
-    setTimeout(() => {
-        matrix.sync();
-    }, 5000);
-});
+// matrix.afterSync(() => {
+//     fill();
+//     setTimeout(() => {
+//         matrix.sync();
+//     }, 5000);
+// });
 fill();
 matrix.sync();
 
-await new Promise((resolve) => setTimeout(() => {
-    matrix.afterSync(() => undefined);
-    matrix.sync();
-    resolve(undefined);
-}, 1000 * 10));
+// await new Promise((resolve) => setTimeout(() => {
+//     matrix.afterSync(() => undefined);
+//     matrix.sync();
+//     resolve(undefined);
+// }, 1000 * 10));
 
 await new Promise((resolve) => setTimeout(() => {
     matrix.clear().sync();
     resolve(undefined);
-}, 1000 * 10));
+}, 1000 * 20));
