@@ -11,7 +11,6 @@ export const getMatrix = () => {
 			type: PixelMapperType.U,
 		}),
         showRefreshRate: true,
-        panelType: 'FM6127',
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
 		gpioSlowdown: 1,
