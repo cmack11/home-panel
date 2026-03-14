@@ -11,7 +11,8 @@ export const getMatrix = () => {
 			type: PixelMapperType.U,
 		}),
         showRefreshRate: true,
-        limitRefreshRateHz: 50
+        pwmLsbNanoseconds: 50,
+        pwmDitherBits: 2
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
 		gpioSlowdown: 4,
