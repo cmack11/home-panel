@@ -12,7 +12,7 @@ export const getMatrix = () => {
 		}),
         showRefreshRate: true,
         pwmLsbNanoseconds: 200,
-        pwmDitherBits: 2,
+        pwmDitherBits: 0,
         limitRefreshRateHz: 100
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
