@@ -9,8 +9,8 @@ export const getMatrix = () => {
 		hardwareMapping: GpioMapping.AdafruitHat,
 		pixelMapperConfig: LedMatrixUtils.encodeMappers({
 			type: PixelMapperType.U,
-		})
-
+		}),
+        showRefreshRate: true,
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
 		gpioSlowdown: 4,
