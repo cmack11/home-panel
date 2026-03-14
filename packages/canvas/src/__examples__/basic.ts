@@ -14,7 +14,7 @@ matrix.afterSync(() => {
     fill();
     setTimeout(() => {
         matrix.sync();
-    }, 1000);
+    }, 5000);
 });
 fill();
 matrix.sync();
