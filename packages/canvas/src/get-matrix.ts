@@ -11,6 +11,7 @@ export const getMatrix = () => {
 			type: PixelMapperType.U,
 		}),
         showRefreshRate: true,
+        multiplexing: 0,
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
 		gpioSlowdown: 1,
