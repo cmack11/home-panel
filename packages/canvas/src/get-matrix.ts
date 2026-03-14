@@ -12,7 +12,8 @@ export const getMatrix = () => {
 		}),
         showRefreshRate: true,
         pwmLsbNanoseconds: 50,
-        pwmDitherBits: 2
+        pwmDitherBits: 2,
+        limitRefreshRateHz: 100
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
 		gpioSlowdown: 4,
