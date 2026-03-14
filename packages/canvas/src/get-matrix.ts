@@ -11,7 +11,7 @@ export const getMatrix = () => {
 			type: PixelMapperType.U,
 		}),
         showRefreshRate: true,
-        pwmLsbNanoseconds: 50,
+        pwmLsbNanoseconds: 200,
         pwmDitherBits: 2,
         limitRefreshRateHz: 100
 	}, {
