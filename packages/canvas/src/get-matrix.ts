@@ -13,7 +13,8 @@ export const getMatrix = () => {
         showRefreshRate: true,
 	}, {
 		...LedMatrix.defaultRuntimeOptions(),
-		gpioSlowdown: 4,
+        // @ts-expect-error
+		gpioSlowdown: 7,
 		dropPrivileges: RuntimeFlag.On,
 	})
 }
