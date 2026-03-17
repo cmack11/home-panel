@@ -26,6 +26,7 @@ export class Canvas {
 
     private startPaintingLoop(): void {
         this.matrix?.afterSync(() => {
+            setTimeout(() => this.matrix?.clear(), 0);
             setTimeout(() => this.paint(), 1000 * 2); // delay start for setup animation todo later
         });
         this.matrix?.fgColor(Color.fromHex("#ffffff").getRGB()).brightness(25).fill().sync();
