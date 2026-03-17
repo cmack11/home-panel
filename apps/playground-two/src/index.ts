@@ -48,14 +48,17 @@ await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
 */
 canvas.addCanvasSection(new CanvasSection("section5", 16, 16, 1, 32, 32));
 const section5 = canvas.getCanvasSection("section5");
+for (let i = 0; i < 10; i++) {
 if (section5) {
     for (let x = 0; x < 32; x++) {
         for (let y = 0; y < 32; y++) {
-            section5.setPixel(x, y, Color.fromHex("#ffff00"), 25);
+            section5.setPixel(x, y, Color.fromHex("#ffff00"), Math.max(1, 100 - i * 10));
         }
     }
 }
-
 await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
+}
+
+
 
 canvas.shutdown();
