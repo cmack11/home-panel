@@ -1,7 +1,7 @@
 import { Canvas, CanvasSection, Color } from "@packages/canvas";
 
 const canvas = new Canvas();
-
+/*
 canvas.addCanvasSection(new CanvasSection("section1", 0, 0, 0, 32, 32));
 canvas.addCanvasSection(new CanvasSection("section2", 32, 0, 0, 32, 32));
 canvas.addCanvasSection(new CanvasSection("section3", 0, 32, 0, 32, 32));
@@ -45,7 +45,7 @@ if (section4) {
 }
 
 await new Promise((resolve) => setTimeout(resolve, 1000 * 5));
-
+*/
 canvas.addCanvasSection(new CanvasSection("section5", 16, 16, 1, 32, 32));
 const section5 = canvas.getCanvasSection("section5");
 if (section5) {
