@@ -60,7 +60,7 @@ const paint = async () => {
     }
 }
 
-if (true) {
+if (false) {
 
     for (let i = 0; i < 10; i++) {
         await paint();
