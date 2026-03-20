@@ -60,8 +60,22 @@ const paint = async () => {
     }
 }
 
-for (let i = 0; i < 10; i++) {
-    await paint();
+if (false) {
+
+    for (let i = 0; i < 10; i++) {
+        await paint();
+    }
+} else {
+    canvas.addCanvasSection(new CanvasSection("allWhite", 0, 0, 0, 64, 64));
+    const allWhite = canvas.getCanvasSection("allWhite");
+    if (allWhite) {
+        for (let x = 0; x < 64; x++) {
+            for (let y = 0; y < 64; y++) {
+                allWhite.setPixel(x, y, Color.fromHex("#ffffff"), 100);
+            }
+        }
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 60));
 }
 
 
