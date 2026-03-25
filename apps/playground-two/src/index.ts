@@ -71,7 +71,7 @@ if (false) {
     if (allWhite) {
         for (let x = 0; x < 64; x++) {
             for (let y = 0; y < 64; y++) {
-                allWhite.setPixel(x, y, Color.fromHex("#ff0000"), 100);
+                allWhite.setPixel(x, y, Color.fromHex("#ffffff"), 100);
             }
         }
     }
